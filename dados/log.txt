@@ -1,0 +1,255 @@
+[2026-05-06 07:08:03] =======================================================
+[2026-05-06 07:08:03] Iniciando coleta — Peruíbe SP
+[2026-05-06 07:08:03] =======================================================
+[2026-05-06 07:08:04]   Taxa USD/BRL do dia: R$ 4.9121
+[2026-05-06 07:08:05]   → 2026-05-07
+[2026-05-06 07:08:14]   ✓ 20 pousadas | total acumulado: 20
+[2026-05-06 07:08:20]   → 2026-05-08
+[2026-05-06 07:08:27]   ✓ 20 pousadas | total acumulado: 40
+[2026-05-06 07:08:34]   → 2026-05-09
+[2026-05-06 07:08:41]   ✓ 20 pousadas | total acumulado: 60
+[2026-05-06 07:08:47]   → 2026-05-10
+[2026-05-06 07:08:53]   ✓ 20 pousadas | total acumulado: 80
+[2026-05-06 07:08:59]   → 2026-05-11
+[2026-05-06 07:09:05]   ✓ 20 pousadas | total acumulado: 100
+[2026-05-06 07:09:11]   → 2026-05-12
+[2026-05-06 07:09:17]   ✓ 20 pousadas | total acumulado: 120
+[2026-05-06 07:09:24]   → 2026-05-13
+[2026-05-06 07:09:31]   ✓ 20 pousadas | total acumulado: 140
+[2026-05-06 07:09:39]   → 2026-05-14
+[2026-05-06 07:09:46]   ✓ 20 pousadas | total acumulado: 160
+[2026-05-06 07:09:52]   → 2026-05-15
+[2026-05-06 07:09:59]   ✓ 20 pousadas | total acumulado: 180
+[2026-05-06 07:10:05]   → 2026-05-16
+[2026-05-06 07:10:13]   ✓ 20 pousadas | total acumulado: 200
+[2026-05-06 07:10:18]   → 2026-05-17
+[2026-05-06 07:10:25]   ✓ 20 pousadas | total acumulado: 220
+[2026-05-06 07:10:33]   → 2026-05-18
+[2026-05-06 07:10:40]   ✓ 20 pousadas | total acumulado: 240
+[2026-05-06 07:10:45]   → 2026-05-19
+[2026-05-06 07:10:52]   ✓ 20 pousadas | total acumulado: 260
+[2026-05-06 07:10:57]   → 2026-05-20
+[2026-05-06 07:11:04]   ✓ 20 pousadas | total acumulado: 280
+[2026-05-06 07:11:10]   → 2026-05-21
+[2026-05-06 07:11:17]   ✓ 20 pousadas | total acumulado: 300
+[2026-05-06 07:11:21]   → 2026-05-22
+[2026-05-06 07:11:28]   ✓ 20 pousadas | total acumulado: 320
+[2026-05-06 07:11:34]   → 2026-05-23
+[2026-05-06 07:11:41]   ✓ 20 pousadas | total acumulado: 340
+[2026-05-06 07:11:47]   → 2026-05-24
+[2026-05-06 07:11:57]   ✓ 20 pousadas | total acumulado: 360
+[2026-05-06 07:12:03]   → 2026-05-25
+[2026-05-06 07:12:10]   ✓ 20 pousadas | total acumulado: 380
+[2026-05-06 07:12:16]   → 2026-05-26
+[2026-05-06 07:12:22]   ✓ 20 pousadas | total acumulado: 400
+[2026-05-06 07:12:29]   → 2026-05-27
+[2026-05-06 07:12:36]   ✓ 20 pousadas | total acumulado: 420
+[2026-05-06 07:12:41]   → 2026-05-28
+[2026-05-06 07:12:47]   ✓ 20 pousadas | total acumulado: 440
+[2026-05-06 07:12:53]   → 2026-05-29
+[2026-05-06 07:13:00]   ✓ 20 pousadas | total acumulado: 460
+[2026-05-06 07:13:09]   → 2026-05-30
+[2026-05-06 07:13:18]   ✓ 20 pousadas | total acumulado: 480
+[2026-05-06 07:13:24]   → 2026-05-31
+[2026-05-06 07:13:31]   ✓ 20 pousadas | total acumulado: 500
+[2026-05-06 07:13:36]   → 2026-06-01
+[2026-05-06 07:13:43]   ✓ 20 pousadas | total acumulado: 520
+[2026-05-06 07:13:50]   → 2026-06-02
+[2026-05-06 07:13:57]   ✓ 20 pousadas | total acumulado: 540
+[2026-05-06 07:14:02]   → 2026-06-03
+[2026-05-06 07:14:09]   ✓ 20 pousadas | total acumulado: 560
+[2026-05-06 07:14:16]   → 2026-06-04
+[2026-05-06 07:14:24]   ✓ 20 pousadas | total acumulado: 580
+[2026-05-06 07:14:32]   → 2026-06-05
+[2026-05-06 07:14:39]   ✓ 20 pousadas | total acumulado: 600
+[2026-05-06 07:14:48] 
+✓ Concluído — 600 registros salvos
+[2026-05-06 07:14:48] =======================================================
+[2026-05-06 15:36:09] Ja executado hoje — encerrando
+[2026-05-06 15:37:09] =======================================================
+[2026-05-06 15:37:09] Iniciando coleta — Peruibe SP
+[2026-05-06 15:37:09] Filtros: menor preco + minimo R$ 50 + moeda BRL
+[2026-05-06 15:37:09] =======================================================
+[2026-05-06 15:37:10]   Taxa USD/BRL do dia: R$ 4.9413
+[2026-05-06 15:37:11]   -> 2026-05-07
+[2026-05-06 15:37:20]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:37:29]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:37:38]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:37:46]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:37:46]   OK 44 pousadas | total acumulado: 44
+[2026-05-06 15:37:53]   -> 2026-05-08
+[2026-05-06 15:38:01]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:38:09]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:38:18]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:38:26]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:38:26]   OK 44 pousadas | total acumulado: 88
+[2026-05-06 15:38:30]   -> 2026-05-09
+[2026-05-06 15:38:39]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:38:47]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:38:56]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:39:04]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:39:04]   OK 44 pousadas | total acumulado: 132
+[2026-05-06 15:39:13]   -> 2026-05-10
+[2026-05-06 15:39:21]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:39:30]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:39:38]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:39:46]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:39:46]   OK 44 pousadas | total acumulado: 176
+[2026-05-06 15:39:53]   -> 2026-05-11
+[2026-05-06 15:40:01]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:40:09]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:40:17]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:40:26]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:40:26]   OK 44 pousadas | total acumulado: 220
+[2026-05-06 15:40:34]   -> 2026-05-12
+[2026-05-06 15:40:47]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:40:55]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:41:04]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:41:11]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:41:11]   OK 44 pousadas | total acumulado: 264
+[2026-05-06 15:41:20]   -> 2026-05-13
+[2026-05-06 15:41:29]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:41:38]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:41:46]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:41:54]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:41:54]   OK 44 pousadas | total acumulado: 308
+[2026-05-06 15:41:59]   -> 2026-05-14
+[2026-05-06 15:42:08]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:42:17]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:42:25]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:42:34]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:42:34]   OK 44 pousadas | total acumulado: 352
+[2026-05-06 15:42:41]   -> 2026-05-15
+[2026-05-06 15:42:50]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:42:59]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:43:07]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:43:16]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:43:16]   OK 44 pousadas | total acumulado: 396
+[2026-05-06 15:43:24]   -> 2026-05-16
+[2026-05-06 15:43:33]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:43:41]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:43:50]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:43:58]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:43:58]   OK 44 pousadas | total acumulado: 440
+[2026-05-06 15:44:06]   -> 2026-05-17
+[2026-05-06 15:44:16]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:44:25]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:44:33]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:44:42]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:44:42]   OK 44 pousadas | total acumulado: 484
+[2026-05-06 15:44:46]   -> 2026-05-18
+[2026-05-06 15:44:56]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:45:04]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:45:13]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:45:21]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:45:21]   OK 44 pousadas | total acumulado: 528
+[2026-05-06 15:45:29]   -> 2026-05-19
+[2026-05-06 15:45:38]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:45:46]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:45:55]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:46:03]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:46:03]   OK 44 pousadas | total acumulado: 572
+[2026-05-06 15:46:10]   -> 2026-05-20
+[2026-05-06 15:46:19]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:46:28]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:46:36]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:46:44]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:46:44]   OK 44 pousadas | total acumulado: 616
+[2026-05-06 15:46:50]   -> 2026-05-21
+[2026-05-06 15:46:59]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:47:07]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:47:15]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:47:23]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:47:23]   OK 44 pousadas | total acumulado: 660
+[2026-05-06 15:47:29]   -> 2026-05-22
+[2026-05-06 15:47:38]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:47:46]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:47:54]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:48:02]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:48:02]   OK 44 pousadas | total acumulado: 704
+[2026-05-06 15:48:11]   -> 2026-05-23
+[2026-05-06 15:48:19]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:48:27]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:48:36]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:48:45]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:48:45]   OK 44 pousadas | total acumulado: 748
+[2026-05-06 15:48:51]   -> 2026-05-24
+[2026-05-06 15:49:00]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:49:08]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:49:17]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:49:25]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:49:25]   OK 44 pousadas | total acumulado: 792
+[2026-05-06 15:49:33]   -> 2026-05-25
+[2026-05-06 15:49:41]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:49:50]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:49:58]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:50:06]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:50:06]   OK 44 pousadas | total acumulado: 836
+[2026-05-06 15:50:13]   -> 2026-05-26
+[2026-05-06 15:50:22]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:50:30]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:50:39]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:50:47]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:50:47]   OK 44 pousadas | total acumulado: 880
+[2026-05-06 15:50:54]   -> 2026-05-27
+[2026-05-06 15:51:05]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:51:14]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:51:22]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:51:30]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:51:30]   OK 44 pousadas | total acumulado: 924
+[2026-05-06 15:51:39]   -> 2026-05-28
+[2026-05-06 15:51:48]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:51:56]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:52:04]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:52:13]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:52:13]   OK 44 pousadas | total acumulado: 968
+[2026-05-06 15:52:20]   -> 2026-05-29
+[2026-05-06 15:52:29]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:52:37]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:52:46]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:52:54]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:52:54]   OK 44 pousadas | total acumulado: 1012
+[2026-05-06 15:53:00]   -> 2026-05-30
+[2026-05-06 15:53:09]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:53:17]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:53:26]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:53:34]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:53:34]   OK 44 pousadas | total acumulado: 1056
+[2026-05-06 15:53:40]   -> 2026-05-31
+[2026-05-06 15:53:49]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:53:57]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:54:06]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:54:14]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:54:14]   OK 44 pousadas | total acumulado: 1100
+[2026-05-06 15:54:19]   -> 2026-06-01
+[2026-05-06 15:54:28]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:54:37]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:54:45]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:54:54]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:54:54]   OK 44 pousadas | total acumulado: 1144
+[2026-05-06 15:55:02]   -> 2026-06-02
+[2026-05-06 15:55:11]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:55:20]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:55:28]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:55:36]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:55:36]   OK 44 pousadas | total acumulado: 1188
+[2026-05-06 15:55:44]   -> 2026-06-03
+[2026-05-06 15:55:53]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:56:01]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:56:10]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:56:19]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:56:19]   OK 44 pousadas | total acumulado: 1232
+[2026-05-06 15:56:24]   -> 2026-06-04
+[2026-05-06 15:56:33]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:56:41]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:56:50]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:56:58]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:56:58]   OK 44 pousadas | total acumulado: 1276
+[2026-05-06 15:57:07]   -> 2026-06-05
+[2026-05-06 15:57:17]     pagina 1: 18 pousadas (acumulado: 18)
+[2026-05-06 15:57:25]     pagina 2: 18 pousadas (acumulado: 36)
+[2026-05-06 15:57:33]     pagina 3: 8 pousadas (acumulado: 44)
+[2026-05-06 15:57:41]     pagina 4: resultados repetidos. Fim real da paginacao.
+[2026-05-06 15:57:41]   OK 44 pousadas | total acumulado: 1320
+[2026-05-06 15:57:50] Concluido — 1320 registros salvos
+[2026-05-06 15:57:50] =======================================================

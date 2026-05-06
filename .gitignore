@@ -1,0 +1,16 @@
+# Playwright — browser baixado localmente (150MB, não vai pro repo)
+ms-playwright/
+playwright-browsers/
+
+# Debug temporário
+debug_pagina.html
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Windows
+Thumbs.db
+desktop.ini
