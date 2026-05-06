@@ -1,17 +1,23 @@
 # push_github.ps1
-# Executa git add + commit + push após a coleta diária.
-# O coletar.py chama este script automaticamente ao final.
-# Pode também ser rodado manualmente.
+# Atualiza o dashboard com dados do banco e faz push para o GitHub.
+# Chamado automaticamente pelo coletar.py ao final da coleta.
 
 $PASTA = "C:\Users\Jason\Desktop\PROJETOS\02 - WORKING\MONITORAMENTE PRECO DIARIA"
-
 Set-Location $PASTA
 
-$data = Get-Date -Format "yyyy-MM-dd HH:mm"
+Write-Host "Atualizando dashboard..." -ForegroundColor Cyan
+python atualizar_dashboard.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Erro ao atualizar dashboard." -ForegroundColor Red
+    exit 1
+}
 
-git add dados/precos.db dashboard.html
-git commit -m "coleta diaria $data"
+$data = Get-Date -Format "yyyy-MM-dd HH:mm"
+Write-Host "Enviando para o GitHub..." -ForegroundColor Cyan
+
+git add dashboard.html dados/log.txt
+git commit -m "coleta $data"
 git push origin main
 
 Write-Host ""
-Write-Host "✓ GitHub atualizado — $data" -ForegroundColor Green
+Write-Host "OK — GitHub Pages atualizado em $data" -ForegroundColor Green

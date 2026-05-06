@@ -1,6 +1,6 @@
 """
 coletar.py — Monitor de preços de pousadas em Peruíbe via Google Hotels
-Versão 2.2 — filtros via URL (menor preço + mínimo R$ 50 + moeda BRL)
+Versão 2.0 — com conversão automática USD→BRL via AwesomeAPI (gratuita)
 Seletores validados em 06/05/2026.
 """
 
@@ -24,26 +24,11 @@ USER_AGENT  = (
     "Chrome/124.0.0.0 Safari/537.36"
 )
 
-# ─── Parâmetros de filtro codificados na URL ──────────────────────
-# ts  → preço mínimo R$ 50 + ordenação por menor preço (protobuf)
-# ap  → parâmetro auxiliar de filtro de preço
-# qs  → estado dos filtros selecionados
-# sort=13 → menor preço
-# curr=BRL → moeda em Reais
-URL_TS  = (
-    "CAESCgoCCAMKAggDEAAaUwo1EjEyJTB4OTRkMDI2MGZkZDhiZTMyNToweDNkMTY3"
-    "YTk4MDczZDJlYzc6CFBlcnXDrWJlGgASGhIUCgcI6g8QBRgZEgcI6g8QBRgaGAEy"
-    "AhAAKhEKBygDOgNCUkwaACIECgIQMg"
-)
-URL_AP  = "MAE"
-URL_QS  = "CAE4AEgA"
-
 # ─── Cotação USD/BRL ──────────────────────────────────────────────
 def buscar_taxa_cambio() -> float:
     """
     Busca a taxa USD/BRL do dia via AwesomeAPI (gratuita, sem autenticação).
     Em caso de falha, usa taxa de fallback para não interromper a coleta.
-    Mantida como fallback caso a página retorne preços em USD.
     """
     try:
         url = "https://economia.awesomeapi.com.br/json/last/USD-BRL"
@@ -53,8 +38,8 @@ def buscar_taxa_cambio() -> float:
         log(f"  Taxa USD/BRL do dia: R$ {taxa:.4f}")
         return taxa
     except (URLError, KeyError, ValueError) as e:
-        log(f"  Aviso: nao foi possivel buscar cotacao ({e}). Usando R$ 5,70 como fallback.")
-        return 5.70
+        log(f"  ⚠ Não foi possível buscar cotação ({e}). Usando R$ 5,00 como fallback.")
+        return 5.00
 
 # ─── Banco de dados ───────────────────────────────────────────────
 def iniciar_banco():
@@ -108,112 +93,12 @@ def marcar_executado():
 
 # ─── URL ──────────────────────────────────────────────────────────
 def montar_url(checkin: str, checkout: str) -> str:
-    """
-    Monta a URL do Google Hotels com todos os filtros codificados:
-      - curr=BRL  → preços em Reais
-      - sort=13   → ordenar por menor preço
-      - ts=...    → preço mínimo R$ 50 (protobuf codificado)
-      - ap=MAE    → parâmetro auxiliar de filtro de preço
-      - qs=...    → estado dos chips de filtro selecionados
-    Apenas checkin e checkout são dinâmicos.
-    """
     return (
-        "https://www.google.com/travel/search"
-        f"?q=pousadas+em+peruibe+sp"
-        f"&qs={URL_QS}"
+        "https://www.google.com/travel/hotels/Peruíbe"
+        "?q=pousadas+em+peruibe+sp"
         f"&checkin={checkin}&checkout={checkout}"
         "&hl=pt-BR&gl=BR&curr=BRL"
-        "&sort=13"
-        f"&ts={URL_TS}"
-        f"&ap={URL_AP}"
     )
-
-
-
-def _scroll_pagina(page) -> None:
-    """Rola toda a pagina atual para garantir que todos os cards carreguem."""
-    for _ in range(5):
-        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-        time.sleep(random.uniform(0.6, 1.0))
-
-
-def coletar_todas_paginas(page, checkin: str, checkout: str,
-                          url_base: str, taxa: float) -> list[dict]:
-    """
-    Itera por todas as paginas de resultados clicando em 'Avancar'.
-    Google Hotels exibe 18 pousadas por pagina, ~44 no total (3 paginas).
-    Detecta o fim da paginacao se nao houver novos cards ou se a proxima pagina for repetida.
-    """
-    from playwright._impl._errors import TargetClosedError
-
-    todos = []
-    pagina = 1
-    MAX_PAGINAS = 10
-    nomes_vistos = set()
-
-    try:
-        while pagina <= MAX_PAGINAS:
-            _scroll_pagina(page)
-            resultados_pg = parsear_html(page.content(), checkin, checkout, url_base, taxa)
-            
-            if not resultados_pg:
-                log(f"    pagina {pagina}: sem resultados. Fim da paginacao.")
-                break
-                
-            # Verifica se e pagina repetida (loop)
-            primeiro_nome = resultados_pg[0]["nome"]
-            if primeiro_nome in nomes_vistos:
-                log(f"    pagina {pagina}: resultados repetidos. Fim real da paginacao.")
-                break
-            nomes_vistos.add(primeiro_nome)
-
-            todos.extend(resultados_pg)
-            log(f"    pagina {pagina}: {len(resultados_pg)} pousadas (acumulado: {len(todos)})")
-
-            # Seletor preciso: botao de paginacao (fora dos cards .kCsInf)
-            btn = page.locator(
-                "button:has-text('Avan\u00e7ar'):not(.kCsInf button), "
-                "[aria-label='Avan\u00e7ar']:not(.kCsInf [aria-label])"
-            ).last
-
-            try:
-                visivel = btn.is_visible(timeout=3000)
-            except Exception:
-                visivel = False
-
-            if not visivel:
-                # Fallback JS: clica no botao de paginacao ignorando os dos cards
-                clicou = page.evaluate("""
-                    () => {
-                        const btns = [...document.querySelectorAll('button')];
-                        const nav = btns.find(b =>
-                            b.innerText.trim() === 'Avan\u00e7ar' &&
-                            !b.closest('.kCsInf') &&
-                            b.offsetParent !== null
-                        );
-                        if (nav) { nav.click(); return true; }
-                        return false;
-                    }
-                """)
-                if not clicou:
-                    log(f"    Sem pagina seguinte. Total final: {len(todos)} pousadas.")
-                    break
-                log(f"    Avancar clicado via JS (fallback)")
-            else:
-                btn.scroll_into_view_if_needed()
-                time.sleep(0.5)
-                btn.click()
-
-            page.wait_for_timeout(3500)
-            pagina += 1
-            
-    except TargetClosedError:
-        log(f"    Navegador fechado inesperadamente. Retornando {len(todos)} coletados.")
-    except Exception as e:
-        log(f"    Erro inesperado na paginacao: {e}")
-
-    return todos
-
 
 # ─── Parser (seletores validados 06/05/2026) ──────────────────────
 def parsear_html(html: str, checkin: str, checkout: str,
@@ -236,6 +121,7 @@ def parsear_html(html: str, checkin: str, checkout: str,
                 if "por noite" in txt:
                     eh_usd = "US$" in txt
                     eh_brl = "R$" in txt
+                    # Extrai o número
                     numeros = txt.replace("\xa0", "").replace(".", "").replace(",", ".")
                     m = re.search(r"\d+(?:\.\d+)?", numeros)
                     if m:
@@ -263,48 +149,44 @@ def parsear_html(html: str, checkin: str, checkout: str,
                     break
 
             resultados.append({
-                "nome":      nome,
-                "preco_usd": preco_usd,
-                "preco_brl": preco_brl,
-                "taxa":      taxa,
-                "avaliacao": avaliacao,
-                "reviews":   reviews,
-                "checkin":   checkin,
-                "checkout":  checkout,
-                "url":       url,
+                "nome":       nome,
+                "preco_usd":  preco_usd,
+                "preco_brl":  preco_brl,
+                "taxa":       taxa,
+                "avaliacao":  avaliacao,
+                "reviews":    reviews,
+                "checkin":    checkin,
+                "checkout":   checkout,
+                "url":        url,
             })
 
         except Exception as e:
-            log(f"  Aviso card: {e}")
+            log(f"  ⚠ Erro card: {e}")
 
     return resultados
 
 # ─── Coleta de uma data ───────────────────────────────────────────
 def coletar_data(page, checkin: str, checkout: str, taxa: float) -> list[dict]:
-    """
-    Navega para a URL com filtros ja embutidos e coleta todas as paginas
-    de resultados via paginacao (botao 'Avancar').
-    """
     url = montar_url(checkin, checkout)
-    log(f"  -> {checkin}")
+    log(f"  → {checkin}")
     try:
         page.goto(url, timeout=30000, wait_until="domcontentloaded")
     except PWTimeout:
-        log("  Timeout na navegacao")
+        log("  ✗ Timeout")
         return []
-
-    page.wait_for_timeout(2500)
-    return coletar_todas_paginas(page, checkin, checkout, url, taxa)
+    for _ in range(4):
+        page.mouse.wheel(0, random.randint(400, 700))
+        time.sleep(random.uniform(0.8, 1.5))
+    return parsear_html(page.content(), checkin, checkout, url, taxa)
 
 # ─── Main ─────────────────────────────────────────────────────────
 def main():
     if ja_rodou_hoje():
-        log("Ja executado hoje — encerrando")
+        log("✓ Já executado hoje — encerrando")
         return
 
     log("=" * 55)
-    log("Iniciando coleta — Peruibe SP")
-    log("Filtros: menor preco + minimo R$ 50 + moeda BRL")
+    log("Iniciando coleta — Peruíbe SP")
     log("=" * 55)
 
     taxa = buscar_taxa_cambio()
@@ -334,13 +216,6 @@ def main():
                 pousadas = coletar_data(page, ci, co, taxa)
                 agora = datetime.now().isoformat()
 
-                # Previne duplicatas caso o script seja interrompido e reiniciado no mesmo dia
-                con.execute("""
-                    DELETE FROM precos 
-                    WHERE date(coletado_em) = date('now', 'localtime') 
-                      AND checkin = ? AND checkout = ?
-                """, (ci, co))
-
                 for p in pousadas:
                     con.execute("""
                         INSERT INTO precos
@@ -354,14 +229,14 @@ def main():
                     total += 1
 
                 con.commit()
-                log(f"  OK {len(pousadas)} pousadas | total acumulado: {total}")
+                log(f"  ✓ {len(pousadas)} pousadas | total acumulado: {total}")
                 time.sleep(random.uniform(4.0, 9.0))
 
             browser.close()
 
     except Exception as e:
         status, erro_msg = "erro", str(e)
-        log(f"Erro fatal: {e}")
+        log(f"✗ Erro fatal: {e}")
 
     con.execute("""
         INSERT INTO coletas (data, registros, taxa_cambio, status, mensagem)
@@ -373,16 +248,29 @@ def main():
 
     if status == "ok":
         marcar_executado()
-        
-        try:
-            import atualizar_dashboard
-            atualizar_dashboard.atualizar_dashboard()
-            log("Dashboard HTML atualizado com sucesso.")
-        except Exception as e:
-            log(f"Erro ao atualizar dashboard: {e}")
-            
-    log(f"Concluido — {total} registros salvos")
+    log(f"\n✓ Concluído — {total} registros salvos")
     log("=" * 55)
+
+    if status == "ok":
+        push_github()
 
 if __name__ == "__main__":
     main()
+
+
+# ─── Push automático para o GitHub ───────────────────────────────
+def push_github():
+    import subprocess
+    script = Path(__file__).parent / "push_github.ps1"
+    if not script.exists():
+        log("⚠ push_github.ps1 não encontrado — pulando push")
+        return
+    log("Iniciando push para o GitHub...")
+    result = subprocess.run(
+        ["powershell", "-ExecutionPolicy", "Bypass", "-File", str(script)],
+        capture_output=True, text=True
+    )
+    if result.returncode == 0:
+        log("✓ GitHub atualizado com sucesso")
+    else:
+        log(f"⚠ Erro no push: {result.stderr.strip()[:200]}")

@@ -1,4 +1,8 @@
-# Playwright — browser baixado localmente (150MB, não vai pro repo)
+# Banco de dados — fica só local
+dados/precos.db
+dados/ultima_coleta.txt
+
+# Playwright — browser baixado localmente (150MB)
 ms-playwright/
 playwright-browsers/
 
