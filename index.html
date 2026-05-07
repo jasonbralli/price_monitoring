@@ -187,33 +187,6 @@
   .chart-wrap { position: relative; height: 260px; }
   .chart-wrap-tall { position: relative; height: 320px; }
 
-  /* ── Sem preço ── */
-  .no-price-list { display: flex; flex-direction: column; gap: 10px; }
-  .no-price-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    gap: 12px;
-  }
-  .no-price-nome { font-size: 12px; font-weight: 600; flex: 1; }
-  .no-price-aval { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
-  .badge-warn {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: rgba(255,107,53,.12);
-    color: var(--warn);
-    border: 1px solid rgba(255,107,53,.25);
-    padding: 2px 7px;
-    border-radius: 4px;
-    white-space: nowrap;
-  }
-
   /* ── Footer ── */
   footer {
     font-family: 'DM Mono', monospace;
@@ -248,18 +221,18 @@
     </div>
     <div class="kpi blue">
       <div class="kpi-label">Preco medio mercado</div>
-      <div class="kpi-value blue">R$ 273</div>
-      <div class="kpi-sub">53 pousadas com preco</div>
+      <div class="kpi-value blue">R$ 236</div>
+      <div class="kpi-sub">50 pousadas com preco</div>
     </div>
     <div class="kpi orange">
       <div class="kpi-label">Maior preco</div>
-      <div class="kpi-value orange">R$ 1148</div>
-      <div class="kpi-sub">Recanto Dumar...</div>
+      <div class="kpi-value orange">R$ 474</div>
+      <div class="kpi-sub">Pousada Sollar Viega...</div>
     </div>
     <div class="kpi gray">
       <div class="kpi-label">Concorrentes monitorados</div>
-      <div class="kpi-value" style="color:var(--text)">142</div>
-      <div class="kpi-sub">30 dias a frente</div>
+      <div class="kpi-value" style="color:var(--text)">50</div>
+      <div class="kpi-sub">Top 50 · 7 dias a frente</div>
     </div>
   </div>
 
@@ -268,7 +241,7 @@
   <div class="grid3">
 
     <div class="card">
-      <div class="card-title">Preço médio por pousada <span class="tag">BRL · 30 dias</span></div>
+      <div class="card-title">Preço médio por pousada <span class="tag">BRL · 7 dias</span></div>
       <table class="price-table">
         <thead>
           <tr>
@@ -291,26 +264,13 @@
 
   </div>
 
-  <!-- Histograma + sem preço -->
+  <!-- Histograma -->
   <div class="section-title">Distribuição e alertas</div>
-  <div class="grid2">
-
-    <div class="card">
-      <div class="card-title">Distribuição de preços <span class="tag">faixas em BRL</span></div>
-      <div class="chart-wrap">
-        <canvas id="histChart"></canvas>
-      </div>
+  <div class="card" style="margin-bottom:24px">
+    <div class="card-title">Distribuição de preços <span class="tag">faixas em BRL</span></div>
+    <div class="chart-wrap">
+      <canvas id="histChart"></canvas>
     </div>
-
-    <div class="card">
-      <div class="card-title">Preço não disponível <span class="tag">4 pousadas</span></div>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.7">
-        Estas pousadas aparecem no Google Hotels mas não exibiram preço na data da coleta.
-        Monitoramento contínuo pode capturar preços futuramente.
-      </p>
-      <div class="no-price-list" id="noPriceList"></div>
-    </div>
-
   </div>
 
   <!-- Gráfico de barras completo -->
@@ -330,9 +290,9 @@
 
 <script>
 // ── Dados reais do banco SQLite ────────────────────────────────
-const POUSADAS = [{"nome": "HOSTEL P\u00e9rolas de Peru\u00edbe", "preco": 69, "aval": 3.5, "reviews": "245"}, {"nome": "Recanto Praia Peruibe", "preco": 99, "aval": 4.5, "reviews": "105"}, {"nome": "Recanto Praia Peruibe - Double Room", "preco": 99, "aval": 4.4, "reviews": "8"}, {"nome": "Apartamento com 1 quarto, para 3 pessoas", "preco": 128, "aval": 2.0, "reviews": "3"}, {"nome": "Pousada Aconchego Peru\u00edbe", "preco": 128, "aval": 3.8, "reviews": "404"}, {"nome": "Pousada Green Ville", "preco": 128, "aval": 4.7, "reviews": "83"}, {"nome": "Pousada Green Ville 13-99651-1561 - Deluxe Double Room with Extra Bed", "preco": 128, "aval": 4.9, "reviews": "16"}, {"nome": "Pousada Peru\u00edbe Ta em Casa", "preco": 138, "aval": 4.5, "reviews": "203"}, {"nome": "Surfside Suites Hotel", "preco": 138, "aval": 4.9, "reviews": "281"}, {"nome": "Porto Su\u00edtes - Check-out Livre aos Domingos", "preco": 148, "aval": 4.6, "reviews": "161"}, {"nome": "Pousada Litoreza Guarau Peru\u00edbe", "preco": 148, "aval": 4.7, "reviews": "343"}, {"nome": "Pousada Peru\u00edbe Frente ao Mar - Apto, kits e Su\u00edtes", "preco": 158, "aval": 4.6, "reviews": "89"}, {"nome": "Apartamentos Park Verde", "preco": 163, "aval": 4.2, "reviews": "59"}, {"nome": "Su\u00edtes Temporada Favorita", "preco": 168, "aval": 4.4, "reviews": "37"}, {"nome": "Pousada Encantos de Peru\u00edbe", "preco": 172, "aval": 4.7, "reviews": "12"}, {"nome": "Pousada Peruibe Ametista", "preco": 172, "aval": 4.6, "reviews": "621"}, {"nome": "CASA MAR PERUIBE", "preco": 182, "aval": 4.6, "reviews": "113"}, {"nome": "Rancho Ohana Peru\u00edbe SP", "preco": 187, "aval": 4.8, "reviews": "25"}, {"nome": "Pousada Chacara Estrela Do Mar", "preco": 192, "aval": 4.7, "reviews": "59"}, {"nome": "Cantinho da Gigi - Vacation Home", "preco": 197, "aval": 4.8, "reviews": "8"}, {"nome": "Pousada Makt\u00fcb", "preco": 197, "aval": 4.8, "reviews": "120"}, {"nome": "Peru\u00edbe Su\u00edte Flat Hotel", "preco": 207, "aval": 4.2, "reviews": "764"}, {"nome": "Vargas Peruibe Hotel", "preco": 212, "aval": 4.6, "reviews": "342"}, {"nome": "Mar Egeu Arte & Pouso", "preco": 216, "aval": 4.0, "reviews": "199"}, {"nome": "Pousada Beira Mar Peru\u00edbe", "preco": 222, "aval": 4.9, "reviews": "63"}, {"nome": "Pousada Peruibe 455", "preco": 222, "aval": 4.4, "reviews": "247"}, {"nome": "Pousada do Sol", "preco": 237, "aval": 5.0, "reviews": "1"}, {"nome": "Hotel Leblon Peru\u00edbe", "preco": 242, "aval": 4.0, "reviews": "371"}, {"nome": "Pousada Porto Aventura", "preco": 246, "aval": 4.5, "reviews": "179"}, {"nome": "Grand Mar\u00e9 Hotel Peru\u00edbe", "preco": 261, "aval": 4.6, "reviews": "77"}, {"nome": "Guara\u00fa surf house chal\u00e9s", "preco": 267, "aval": 0, "reviews": "0"}, {"nome": "Inn Pier 36", "preco": 276, "aval": 4.6, "reviews": "301"}, {"nome": "Pousada Cavalo de Pedra - Basic Room", "preco": 281, "aval": 5.0, "reviews": "8"}, {"nome": "Pousada Ecol\u00f3gica Cavalo de Pedra", "preco": 281, "aval": 4.8, "reviews": "118"}, {"nome": "Pousada Gaivotas", "preco": 281, "aval": 4.3, "reviews": "414"}, {"nome": "Pousada e Col\u00f4nia de F\u00e9rias APATEJ", "preco": 282, "aval": 4.7, "reviews": "76"}, {"nome": "Hotel Pousada Xapuri", "preco": 296, "aval": 4.6, "reviews": "574"}, {"nome": "Toka do Lula", "preco": 301, "aval": 4.5, "reviews": "1,0\u00a0mil"}, {"nome": "Mar e Sol", "preco": 306, "aval": 4.8, "reviews": "13"}, {"nome": "Hotel Haloha || Hotel Praia do Centro || Hospedagem em Peru\u00edbe || Hospedagem Familiar Peruibe", "preco": 310, "aval": 3.4, "reviews": "106"}, {"nome": "Hospedaria Namast\u00ea", "preco": 320, "aval": 5.0, "reviews": "30"}, {"nome": "Hotel Casar\u00e3o de Peru\u00edbe", "preco": 330, "aval": 4.7, "reviews": "350"}, {"nome": "Pousada Peruibiza", "preco": 331, "aval": 4.6, "reviews": "113"}, {"nome": "Pousada Spa Peru\u00edbe", "preco": 350, "aval": 4.5, "reviews": "41"}, {"nome": "Pousada O\u00e1sis de Peru\u00edbe", "preco": 360, "aval": 4.8, "reviews": "157"}, {"nome": "Hotel Alaska", "preco": 379, "aval": 4.1, "reviews": "266"}, {"nome": "Col\u00f4nia de F\u00e9rias Sindifastfood S\u00e3o Paulo/SP", "preco": 384, "aval": 4.4, "reviews": "247"}, {"nome": "CASA TERREA PERUIBE 5 MIN DO CENTRO, LINDA VISTA, PR\u00d3XIMO A TUDO. - One-Bedroom House", "preco": 385, "aval": 5.0, "reviews": "5"}, {"nome": "Pousada Vila Thaynara", "preco": 419, "aval": 4.5, "reviews": "6"}, {"nome": "Pousada Sollar Viegas", "preco": 474, "aval": 4.6, "reviews": "17"}, {"nome": "Aurora Family Hotel", "preco": 533, "aval": 4.6, "reviews": "206"}, {"nome": "\u00c2ncora Peruibe Hotel", "preco": 971, "aval": 4.8, "reviews": "253"}, {"nome": "Recanto Dumar", "preco": 1148, "aval": 5.0, "reviews": "50"}];
+const POUSADAS = [{"nome": "HOSTEL P\u00e9rolas de Peru\u00edbe", "preco": 69, "aval": 3.5, "reviews": "245"}, {"nome": "Recanto Praia Peruibe", "preco": 99, "aval": 4.5, "reviews": "105"}, {"nome": "Recanto Praia Peruibe - Double Room", "preco": 99, "aval": 4.4, "reviews": "8"}, {"nome": "Apartamento com 1 quarto, para 3 pessoas", "preco": 128, "aval": 2.0, "reviews": "3"}, {"nome": "Pousada Aconchego Peru\u00edbe", "preco": 128, "aval": 3.8, "reviews": "404"}, {"nome": "Pousada Green Ville", "preco": 128, "aval": 4.7, "reviews": "83"}, {"nome": "Pousada Green Ville 13-99651-1561 - Deluxe Double Room with Extra Bed", "preco": 128, "aval": 4.9, "reviews": "16"}, {"nome": "Pousada Peru\u00edbe Ta em Casa", "preco": 138, "aval": 4.5, "reviews": "203"}, {"nome": "Surfside Suites Hotel", "preco": 138, "aval": 4.9, "reviews": "281"}, {"nome": "Porto Su\u00edtes - Check-out Livre aos Domingos", "preco": 148, "aval": 4.6, "reviews": "161"}, {"nome": "Pousada Litoreza Guarau Peru\u00edbe", "preco": 148, "aval": 4.7, "reviews": "343"}, {"nome": "Pousada Peru\u00edbe Frente ao Mar - Apto, kits e Su\u00edtes", "preco": 158, "aval": 4.6, "reviews": "89"}, {"nome": "Apartamentos Park Verde", "preco": 163, "aval": 4.2, "reviews": "59"}, {"nome": "Su\u00edtes Temporada Favorita", "preco": 168, "aval": 4.4, "reviews": "37"}, {"nome": "Pousada Encantos de Peru\u00edbe", "preco": 172, "aval": 4.7, "reviews": "12"}, {"nome": "Pousada Peruibe Ametista", "preco": 172, "aval": 4.6, "reviews": "621"}, {"nome": "CASA MAR PERUIBE", "preco": 182, "aval": 4.6, "reviews": "113"}, {"nome": "Rancho Ohana Peru\u00edbe SP", "preco": 187, "aval": 4.8, "reviews": "25"}, {"nome": "Pousada Chacara Estrela Do Mar", "preco": 192, "aval": 4.7, "reviews": "59"}, {"nome": "Cantinho da Gigi - Vacation Home", "preco": 197, "aval": 4.8, "reviews": "8"}, {"nome": "Pousada Makt\u00fcb", "preco": 197, "aval": 4.8, "reviews": "120"}, {"nome": "Peru\u00edbe Su\u00edte Flat Hotel", "preco": 207, "aval": 4.2, "reviews": "764"}, {"nome": "Vargas Peruibe Hotel", "preco": 212, "aval": 4.6, "reviews": "342"}, {"nome": "Mar Egeu Arte & Pouso", "preco": 216, "aval": 4.0, "reviews": "199"}, {"nome": "Pousada Beira Mar Peru\u00edbe", "preco": 222, "aval": 4.9, "reviews": "63"}, {"nome": "Pousada Peruibe 455", "preco": 222, "aval": 4.4, "reviews": "247"}, {"nome": "Pousada do Sol", "preco": 237, "aval": 5.0, "reviews": "1"}, {"nome": "Hotel Leblon Peru\u00edbe", "preco": 242, "aval": 4.0, "reviews": "371"}, {"nome": "Pousada Porto Aventura", "preco": 246, "aval": 4.5, "reviews": "179"}, {"nome": "Grand Mar\u00e9 Hotel Peru\u00edbe", "preco": 261, "aval": 4.6, "reviews": "77"}, {"nome": "Guara\u00fa surf house chal\u00e9s", "preco": 267, "aval": 0, "reviews": "0"}, {"nome": "Inn Pier 36", "preco": 276, "aval": 4.6, "reviews": "301"}, {"nome": "Pousada Cavalo de Pedra - Basic Room", "preco": 281, "aval": 5.0, "reviews": "8"}, {"nome": "Pousada Ecol\u00f3gica Cavalo de Pedra", "preco": 281, "aval": 4.8, "reviews": "118"}, {"nome": "Pousada Gaivotas", "preco": 281, "aval": 4.3, "reviews": "414"}, {"nome": "Pousada e Col\u00f4nia de F\u00e9rias APATEJ", "preco": 282, "aval": 4.7, "reviews": "76"}, {"nome": "Hotel Pousada Xapuri", "preco": 296, "aval": 4.6, "reviews": "574"}, {"nome": "Toka do Lula", "preco": 301, "aval": 4.5, "reviews": "1,0\u00a0mil"}, {"nome": "Mar e Sol", "preco": 306, "aval": 4.8, "reviews": "13"}, {"nome": "Hotel Haloha || Hotel Praia do Centro || Hospedagem em Peru\u00edbe || Hospedagem Familiar Peruibe", "preco": 310, "aval": 3.4, "reviews": "106"}, {"nome": "Hospedaria Namast\u00ea", "preco": 320, "aval": 5.0, "reviews": "30"}, {"nome": "Hotel Casar\u00e3o de Peru\u00edbe", "preco": 330, "aval": 4.7, "reviews": "350"}, {"nome": "Pousada Peruibiza", "preco": 331, "aval": 4.6, "reviews": "113"}, {"nome": "Pousada Spa Peru\u00edbe", "preco": 350, "aval": 4.5, "reviews": "41"}, {"nome": "Pousada O\u00e1sis de Peru\u00edbe", "preco": 360, "aval": 4.8, "reviews": "157"}, {"nome": "Hotel Alaska", "preco": 379, "aval": 4.1, "reviews": "266"}, {"nome": "Col\u00f4nia de F\u00e9rias Sindifastfood S\u00e3o Paulo/SP", "preco": 384, "aval": 4.4, "reviews": "247"}, {"nome": "CASA TERREA PERUIBE 5 MIN DO CENTRO, LINDA VISTA, PR\u00d3XIMO A TUDO. - One-Bedroom House", "preco": 385, "aval": 5.0, "reviews": "5"}, {"nome": "Pousada Vila Thaynara", "preco": 419, "aval": 4.5, "reviews": "6"}, {"nome": "Pousada Sollar Viegas", "preco": 474, "aval": 4.6, "reviews": "17"}];
 
-const SEM_PRECO = [{"nome": "AFPESP - Peru\u00edbe II", "aval": 4.7, "reviews": "816"}, {"nome": "Apartamentos Plaza", "aval": 0, "reviews": "0"}, {"nome": "Beachfront Inn 1 - Deluxe Double Or Twin Room With Ocean View", "aval": 0, "reviews": "0"}, {"nome": "Cantinho da Vov\u00f3", "aval": 5.0, "reviews": "17"}, {"nome": "Canto do Sabi\u00e1", "aval": 0, "reviews": "0"}, {"nome": "Casa Centro de Peru\u00edbe - RP - Double Room", "aval": 4.8, "reviews": "8"}, {"nome": "Casa Cheia De Alegria E Sol", "aval": 5.0, "reviews": "1"}, {"nome": "Casa Grande - Two-Bedroom House", "aval": 0, "reviews": "0"}, {"nome": "Casa com Vista do Mar e Montanha - Two-Bedroom House", "aval": 4.6, "reviews": "16"}, {"nome": "Casa da Praia Pousada", "aval": 4.9, "reviews": "28"}, {"nome": "Casablanca Praia Hotel", "aval": 4.2, "reviews": "152"}, {"nome": "Chal\u00e9 Do Cost\u00e3o", "aval": 4.1, "reviews": "239"}, {"nome": "Chal\u00e9 HIGA", "aval": 4.9, "reviews": "117"}, {"nome": "Col\u00f4nia de F\u00e9rias Recanto da Sa\u00fade Peru\u00edbe", "aval": 4.7, "reviews": "58"}, {"nome": "EM TUDO DIFERENTE Camping", "aval": 4.7, "reviews": "235"}, {"nome": "ENCERRAMOS AS ATIVIDADES - A Pousada Vegana", "aval": 4.8, "reviews": "110"}, {"nome": "Ecoville Pousada & Ecoturismo", "aval": 4.7, "reviews": "47"}, {"nome": "Espa\u00e7o FR - Guara\u00fa", "aval": 5.0, "reviews": "4"}, {"nome": "Guara\u00fa Ecopousada", "aval": 4.1, "reviews": "283"}, {"nome": "Guara\u00fa Praia Su\u00edtes", "aval": 4.9, "reviews": "157"}, {"nome": "HOSPEDARIA NA PRAIA", "aval": 4.8, "reviews": "20"}, {"nome": "HOSTEL P\u00e9rolas de Peru\u00edbe", "aval": 3.5, "reviews": "245"}, {"nome": "HOTEL AREIA DOURADA - PERU\u00cdBE/SP", "aval": 4.5, "reviews": "336"}, {"nome": "HOTEL FL\u00d3RIDA PERUIBE", "aval": 4.3, "reviews": "575"}, {"nome": "Hostel Da Fam\u00edlia", "aval": 5.0, "reviews": "3"}, {"nome": "Hostel Natureza & Arte", "aval": 4.0, "reviews": "39"}, {"nome": "Hostel Parada 013", "aval": 4.6, "reviews": "29"}, {"nome": "Hostel Stars Peru\u00edbe", "aval": 3.9, "reviews": "177"}, {"nome": "Hotel Ru\u00ednas", "aval": 4.3, "reviews": "196"}, {"nome": "Hotel Veleiro", "aval": 4.0, "reviews": "209"}, {"nome": "Hotel e Restaurante Aquarela de Peru\u00edbe", "aval": 4.8, "reviews": "6,0\u00a0mil"}, {"nome": "Hotel e Restaurante Brisamar", "aval": 4.7, "reviews": "1,3\u00a0mil"}, {"nome": "Jadi Hotelaria", "aval": 4.7, "reviews": "40"}, {"nome": "Maranata House with Pool - 2 minutes drive to the sea - Three-Bedroom Vacation Home", "aval": 5.0, "reviews": "8"}, {"nome": "Mirante Praia Hotel Peruibe", "aval": 4.3, "reviews": "1,5\u00a0mil"}, {"nome": "Mochileiros pousada e Observa\u00e7\u00e3o de Aves", "aval": 4.7, "reviews": "152"}, {"nome": "O'DECK", "aval": 5.0, "reviews": "1"}, {"nome": "Passaredo Guara\u00fa Hotel", "aval": 4.6, "reviews": "163"}, {"nome": "Peruibe Praia Hostel", "aval": 4.3, "reviews": "92"}, {"nome": "Peru\u00edbe Su\u00edte Flat Hotel", "aval": 4.2, "reviews": "764"}, {"nome": "Porto Su\u00edtes - Check-out Livre aos Domingos", "aval": 4.6, "reviews": "161"}, {"nome": "Pousada Aconchego Peru\u00edbe", "aval": 3.8, "reviews": "404"}, {"nome": "Pousada Arandu", "aval": 4.6, "reviews": "15"}, {"nome": "Pousada Beira Mar Peru\u00edbe", "aval": 4.9, "reviews": "63"}, {"nome": "Pousada Bicho Pregui\u00e7a", "aval": 4.3, "reviews": "89"}, {"nome": "Pousada Birdwatching Samambaia Azul", "aval": 4.8, "reviews": "76"}, {"nome": "Pousada Casa Una", "aval": 5.0, "reviews": "5"}, {"nome": "Pousada Chacara Estrela Do Mar", "aval": 4.7, "reviews": "59"}, {"nome": "Pousada Cost\u00e3o (Col\u00f4nia de f\u00e9rias sindicato) Ibi\u00fana", "aval": 4.2, "reviews": "219"}, {"nome": "Pousada Da Vov\u00f3", "aval": 3.9, "reviews": "201"}, {"nome": "Pousada Dani - Peruibe", "aval": 4.5, "reviews": "350"}, {"nome": "Pousada Do Sr Rafael", "aval": 4.6, "reviews": "82"}, {"nome": "Pousada Encantos de Peru\u00edbe", "aval": 4.7, "reviews": "12"}, {"nome": "Pousada Geres Peru\u00edbe", "aval": 4.8, "reviews": "81"}, {"nome": "Pousada Green Ville", "aval": 4.7, "reviews": "83"}, {"nome": "Pousada Jardim das Aves", "aval": 4.7, "reviews": "91"}, {"nome": "Pousada Le\u00e3o Verde", "aval": 4.8, "reviews": "276"}, {"nome": "Pousada Litoreza Guarau Peru\u00edbe", "aval": 4.7, "reviews": "343"}, {"nome": "Pousada Lume Beach House Peru\u00edbe", "aval": 3.5, "reviews": "14"}, {"nome": "Pousada Makt\u00fcb", "aval": 4.8, "reviews": "120"}, {"nome": "Pousada Morada do Sol", "aval": 4.1, "reviews": "320"}, {"nome": "Pousada Peruibe 455", "aval": 4.4, "reviews": "247"}, {"nome": "Pousada Peruibe Ametista", "aval": 4.6, "reviews": "621"}, {"nome": "Pousada Peruibe Praia", "aval": 4.5, "reviews": "382"}, {"nome": "Pousada Peru\u00edbe Frente ao Mar - Apto, kits e Su\u00edtes", "aval": 4.6, "reviews": "89"}, {"nome": "Pousada Peru\u00edbe Ta em Casa", "aval": 4.5, "reviews": "203"}, {"nome": "Pousada P\u00f4r do Sol em Peru\u00edbe", "aval": 4.4, "reviews": "177"}, {"nome": "Pousada Recanto dos P\u00e1ssaros", "aval": 4.8, "reviews": "181"}, {"nome": "Pousada Saray S/C Ltda", "aval": 4.4, "reviews": "142"}, {"nome": "Pousada Sollar dos Ger\u00e2nios", "aval": 4.5, "reviews": "239"}, {"nome": "Pousada Toninho", "aval": 5.0, "reviews": "1"}, {"nome": "Pousada Village I", "aval": 3.9, "reviews": "35"}, {"nome": "Pousada Waldhaus - Casa da Floresta", "aval": 4.4, "reviews": "234"}, {"nome": "Pousada costa do sol", "aval": 4.6, "reviews": "156"}, {"nome": "Pousada da Jureia", "aval": 4.5, "reviews": "142"}, {"nome": "Pousada do Chefe Escoteiro", "aval": 4.2, "reviews": "85"}, {"nome": "Pousada do Surf", "aval": 4.8, "reviews": "69"}, {"nome": "Pousada do Vaqueiro", "aval": 4.1, "reviews": "54"}, {"nome": "Pousada e Restaurante Recanto Guara\u00fa", "aval": 4.5, "reviews": "188"}, {"nome": "Pura Jur\u00e9ia Pousadinha", "aval": 4.8, "reviews": "31"}, {"nome": "Quintal Do Manema", "aval": 5.0, "reviews": "23"}, {"nome": "Rancho Ohana Peru\u00edbe SP", "aval": 4.8, "reviews": "25"}, {"nome": "Recanto Praia Peruibe", "aval": 4.5, "reviews": "105"}, {"nome": "SATTA HOUSE", "aval": 4.4, "reviews": "55"}, {"nome": "SINTHORESP \u00c1gua Azul", "aval": 4.4, "reviews": "36"}, {"nome": "Sinpeem Peru\u00edbe Hotel", "aval": 4.4, "reviews": "158"}, {"nome": "Surfside Suites Hotel", "aval": 4.9, "reviews": "281"}, {"nome": "Su\u00edtes Bella Mar Guara\u00fa", "aval": 5.0, "reviews": "33"}, {"nome": "Su\u00edtes Temporada Favorita", "aval": 4.4, "reviews": "37"}];
+const SEM_PRECO = [];
 
 const MAX_PRECO = Math.max(...POUSADAS.map(p => p.preco));
 
@@ -362,17 +322,6 @@ POUSADAS.forEach((p, i) => {
         </div>
       </td>
     </tr>`;
-});
-
-// ── Sem preço ──────────────────────────────────────────────────
-const noList = document.getElementById('noPriceList');
-SEM_PRECO.forEach(p => {
-  noList.innerHTML += `
-    <div class="no-price-item">
-      <span class="no-price-nome">${p.nome}</span>
-      <span class="no-price-aval">★ ${p.aval} · ${p.reviews}</span>
-      <span class="badge-warn">sem preço</span>
-    </div>`;
 });
 
 // ── Chart.js defaults ──────────────────────────────────────────
