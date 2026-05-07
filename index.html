@@ -49,7 +49,7 @@
   .header-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-align: right; line-height: 1.6; }
 
   /* ── Layout ── */
-  main { padding: 32px 40px; max-width: 1280px; }
+  main { padding: 32px 40px; max-width: 1280px; margin: 0 auto; }
 
   /* ── KPI Cards ── */
   .kpis {
@@ -196,6 +196,62 @@
     padding-top: 40px;
     letter-spacing: .5px;
   }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVIDADE
+  ══════════════════════════════════════════ */
+
+  /* Tablet — até 900px */
+  @media (max-width: 900px) {
+    header { padding: 18px 20px; }
+    main   { padding: 24px 20px; }
+    .kpis  { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .grid3 { grid-template-columns: 1fr; }
+    .grid2 { grid-template-columns: 1fr; }
+    .kpi-value { font-size: 26px; }
+  }
+
+  /* Mobile — até 600px */
+  @media (max-width: 600px) {
+    header {
+      padding: 14px 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .header-meta { text-align: left; font-size: 10px; }
+    .logo-text   { font-size: 16px; }
+
+    main { padding: 16px 12px; }
+
+    .kpis { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+    .kpi  { padding: 14px 16px; }
+    .kpi-value { font-size: 22px; }
+    .kpi-label { font-size: 9px; letter-spacing: 1px; }
+    .kpi-sub   { font-size: 10px; }
+
+    .card { padding: 16px 12px; }
+    .card-title { font-size: 12px; flex-wrap: wrap; }
+
+    /* Tabela — esconde coluna Avaliação e barra visual em tela pequena */
+    .price-table th:nth-child(3),
+    .price-table td:nth-child(3) { display: none; }
+    .price-bar-bg  { display: none; }
+    .price-val     { min-width: auto; }
+    .nome-cell     { max-width: 140px; }
+
+    /* Charts — altura reduzida */
+    .chart-wrap      { height: 200px; }
+    .chart-wrap-tall { height: 220px; }
+
+    .section-title { font-size: 10px; letter-spacing: 1.5px; }
+  }
+
+  /* Mobile muito pequeno — até 380px */
+  @media (max-width: 380px) {
+    .kpi-value { font-size: 20px; }
+    main { padding: 12px 8px; }
+  }
 </style>
 </head>
 <body>
@@ -277,7 +333,7 @@
   <div class="section-title">Comparativo completo</div>
   <div class="card" style="margin-bottom:0">
     <div class="card-title">Preço médio por estabelecimento — ordenado por valor</div>
-    <div style="position:relative;height:300px">
+    <div id="barWrap" style="position:relative">
       <canvas id="barChart"></canvas>
     </div>
   </div>
@@ -394,6 +450,10 @@ new Chart(document.getElementById('histChart'), {
 });
 
 // ── Bar chart horizontal completo ──────────────────────────────
+const barWrap = document.getElementById('barWrap');
+const rowH = window.innerWidth < 600 ? 22 : 28;
+barWrap.style.height = (POUSADAS.length * rowH + 40) + 'px';
+
 new Chart(document.getElementById('barChart'), {
   type: 'bar',
   data: {
