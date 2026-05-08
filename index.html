@@ -1,185 +1,551 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monitor de Preços — Peruíbe SP</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg:      #0d0f14;
-    --surface: #13161e;
-    --border:  #1f2433;
-    --accent:  #00e5a0;
-    --accent2: #0066ff;
-    --warn:    #ff6b35;
-    --text:    #e8eaf0;
-    --muted:   #6b7280;
-    --card-r:  12px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Premium — Peruíbe</title>
 
-  /* ── Header ── */
-  header { border-bottom: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); animation: pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-  .logo-text { font-size: 18px; font-weight: 700; letter-spacing: -.5px; }
-  .logo-text span { color: var(--accent); }
-  .header-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-align: right; line-height: 1.6; }
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
-  /* ── Layout ── */
-  main { padding: 32px 40px; max-width: 1280px; margin: 0 auto; }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  /* ── KPIs ── */
-  .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 32px; }
-  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-r); padding: 20px 24px; position: relative; }
-  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; border-radius: var(--card-r) var(--card-r) 0 0; }
-  .kpi.green::before  { background: var(--accent); }
-  .kpi.blue::before   { background: var(--accent2); }
-  .kpi.orange::before { background: var(--warn); }
-  .kpi.gray::before   { background: var(--muted); }
-  .kpi-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
-  .kpi-value { font-size: 32px; font-weight: 800; line-height: 1; }
-  .kpi-value.accent { color: var(--accent); }
-  .kpi-value.blue   { color: var(--accent2); }
-  .kpi-value.orange { color: var(--warn); }
-  .kpi-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 6px; }
+  <style>
+    :root {
+      --bg: #0b0f15;
+      --surface: rgba(255,255,255,0.04);
+      --surface-2: rgba(255,255,255,0.02);
+      --border: rgba(255,255,255,0.08);
+      --text: #f3f4f6;
+      --muted: #9ca3af;
 
-  /* ── Section title ── */
-  .section-title { font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+      --green: #00d492;
+      --blue: #3b82f6;
+      --orange: #fb923c;
 
-  /* ── Grids ── */
-  .grid3 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 24px; }
+      --radius: 24px;
+    }
 
-  /* ── Card ── */
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-r); padding: 24px; }
-  .card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .card-title .tag { font-family: 'DM Mono', monospace; font-size: 10px; background: var(--border); color: var(--muted); padding: 2px 8px; border-radius: 4px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* ── Tabela ── */
-  .price-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .price-table th { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); padding: 0 0 12px; text-align: left; border-bottom: 1px solid var(--border); }
-  .price-table th:not(:first-child) { text-align: right; }
-  .price-table td { padding: 10px 0; border-bottom: 1px solid rgba(31,36,51,.6); vertical-align: middle; }
-  .price-table td:not(:first-child) { text-align: right; }
-  .price-table tr:last-child td { border-bottom: none; }
-  .price-table tr:hover td { background: rgba(255,255,255,.02); }
-  .col-rank  { width: 36px; }
-  .col-nome  { width: auto; }
-  .col-aval  { width: 80px; }
-  .col-preco { width: 110px; }
-  .nome-text { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%; }
-  .nome-sub  { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
-  .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; }
-  .rank-1 { background: rgba(0,229,160,.15); color: var(--accent); }
-  .rank-2 { background: rgba(0,102,255,.15); color: var(--accent2); }
-  .rank-3 { background: rgba(255,107,53,.15); color: var(--warn); }
-  .rank-n { background: var(--border); color: var(--muted); }
-  .stars { color: #f59e0b; font-size: 11px; }
-  .stars-val { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
-  .price-bar-wrap { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
-  .price-bar-bg { width: 50px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
-  .price-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); }
-  .price-val { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; white-space: nowrap; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
 
-  /* ── Chart containers ── */
-  .chart-wrap      { position: relative; height: 260px; }
-  .chart-wrap-tall { position: relative; height: 320px; }
+      background:
+        radial-gradient(circle at top left,
+          rgba(0,212,146,.12),
+          transparent 30%),
 
-  /* ── Lista mobile (substitui bar chart em mobile) ── */
-  .bar-list { display: none; }
-  .bar-item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(31,36,51,.5); }
-  .bar-item:last-child { border-bottom: none; }
-  .bar-rank { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); width: 22px; text-align: right; flex-shrink: 0; }
-  .bar-nome { font-size: 11px; font-weight: 600; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .bar-track { flex-shrink: 0; width: 60px; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .bar-fill  { height: 100%; border-radius: 3px; }
-  .bar-price { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; white-space: nowrap; flex-shrink: 0; width: 46px; text-align: right; }
+        radial-gradient(circle at top right,
+          rgba(59,130,246,.10),
+          transparent 35%),
 
-  /* ── Footer ── */
-  footer { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); text-align: center; padding-top: 40px; letter-spacing: .5px; }
+        var(--bg);
 
-  /* ══ RESPONSIVIDADE ══════════════════════════════════════════ */
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  @media (max-width: 900px) {
-    header { padding: 18px 20px; }
-    main   { padding: 24px 20px; }
-    .kpis  { grid-template-columns: repeat(2,1fr); gap: 12px; }
-    .grid3 { grid-template-columns: 1fr; }
-    .kpi-value { font-size: 26px; }
-  }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      opacity: .35;
+    }
 
-  @media (max-width: 600px) {
-    header { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 4px; }
-    .header-meta { text-align: left; font-size: 10px; }
-    .logo-text { font-size: 15px; }
-    main { padding: 14px 10px; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
 
-    /* KPIs: 1 coluna, layout horizontal interno */
-    .kpis { grid-template-columns: 1fr; gap: 6px; margin-bottom: 16px; }
-    .kpi  { padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
-    .kpi::before { top: 0; bottom: 0; right: auto; width: 3px; height: auto; border-radius: 2px 0 0 2px; }
-    .kpi-body  { flex: 1; min-width: 0; }
-    .kpi-label { font-size: 8px; letter-spacing: 0.6px; margin-bottom: 2px; white-space: normal; line-height: 1.3; }
-    .kpi-value { font-size: 22px; line-height: 1.1; }
-    .kpi-sub   { font-size: 9px; margin-top: 2px; white-space: normal; line-height: 1.3; }
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-    .card { padding: 14px 10px; }
-    .card-title { font-size: 11px; margin-bottom: 12px; }
-    .card-title .tag { font-size: 9px; }
-    .section-title { font-size: 9px; letter-spacing: 1px; margin-bottom: 10px; }
+      padding: 18px 28px;
 
-    /* Tabela: oculta avaliação e barra, mantém rank+nome+preço */
-    .col-aval  { display: none; }
-    .price-bar-bg { display: none; }
-    .price-val { font-size: 11px; }
-    .nome-text { font-size: 11px; }
-    .nome-sub  { font-size: 9px; }
-    .price-table td { padding: 7px 0; }
-    .price-table th { font-size: 8px; letter-spacing: 0.6px; }
-    .rank-badge { width: 18px; height: 18px; font-size: 9px; }
+      backdrop-filter: blur(20px);
+      background: rgba(11,15,21,.72);
 
-    /* Scatter: mantém canvas, sem título de eixo */
-    .chart-wrap      { height: 180px; }
-    .chart-wrap-tall { height: 200px; }
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
 
-    /* Histograma: mantém canvas */
-    .hist-wrap { height: 180px; position: relative; }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-    /* Bar chart: troca canvas por lista HTML */
-    .bar-chart-canvas { display: none; }
-    .bar-list { display: block; }
-  }
+    .logo-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px var(--green);
+      animation: pulse 2s infinite;
+    }
 
-  @media (max-width: 380px) {
-    main { padding: 10px 8px; }
-    .kpi { padding: 10px 12px; }
-    .kpi-value { font-size: 19px; }
-    .bar-track { width: 44px; }
-    .bar-price { width: 40px; font-size: 9px; }
-  }
-</style>
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+
+    .logo h2 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .logo span {
+      color: var(--green);
+    }
+
+    .header-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1450px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .hero {
+      padding: 44px;
+      margin-bottom: 32px;
+
+      border-radius: 30px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(0,212,146,.10),
+          rgba(59,130,246,.06)
+        );
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.30),
+        inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 14px;
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,.05);
+
+      color: var(--green);
+
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 74px);
+      line-height: .95;
+      margin: 18px 0;
+      max-width: 800px;
+    }
+
+    .hero p {
+      max-width: 720px;
+      line-height: 1.8;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 20px;
+      margin-bottom: 34px;
+    }
+
+    .card,
+    .kpi {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.04),
+          rgba(255,255,255,.02)
+        );
+
+      border: 1px solid rgba(255,255,255,.06);
+
+      backdrop-filter: blur(12px);
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.03);
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .card:hover,
+    .kpi:hover {
+      transform: translateY(-4px);
+
+      border-color: rgba(255,255,255,.14);
+
+      box-shadow:
+        0 25px 50px rgba(0,0,0,.34);
+    }
+
+    .kpi {
+      padding: 24px;
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      min-height: 150px;
+    }
+
+    .kpi::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .kpi.green::before { background: var(--green); }
+    .kpi.blue::before { background: var(--blue); }
+    .kpi.orange::before { background: var(--orange); }
+    .kpi.gray::before { background: #9ca3af; }
+
+    .kpi-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-value {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .green-text { color: var(--green); }
+    .blue-text { color: var(--blue); }
+    .orange-text { color: var(--orange); }
+
+    .kpi-sub {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      margin: 34px 0 18px;
+
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .grid-main {
+      display: grid;
+      grid-template-columns:
+        minmax(0,1.6fr)
+        minmax(360px,.9fr);
+      gap: 24px;
+    }
+
+    .card {
+      padding: 26px;
+      border-radius: var(--radius);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      margin-bottom: 24px;
+
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: left;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    tbody td {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+
+    tbody tr {
+      transition: background .2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(255,255,255,.02);
+    }
+
+    .rank {
+      width: 34px;
+      height: 34px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      background: rgba(255,255,255,.06);
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .hotel-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .hotel-sub {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .price {
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .price.green-text,
+    .price.blue-text,
+    .price.orange-text {
+      font-weight: 800;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 380px;
+    }
+
+    .histogram {
+      margin-top: 24px;
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bar-item {
+      display: grid;
+      grid-template-columns: 40px 1fr 120px 80px;
+      align-items: center;
+      gap: 14px;
+
+      padding: 14px;
+
+      border-radius: 18px;
+
+      background: rgba(255,255,255,.02);
+
+      transition: all .2s ease;
+    }
+
+    .bar-item:hover {
+      background: rgba(255,255,255,.04);
+      transform: translateX(3px);
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px 60px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .grid-main {
+        grid-template-columns: 1fr;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+
+    @media (max-width: 700px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      main {
+        padding: 18px 14px 60px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .kpis {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 12px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255,255,255,.02);
+      }
+
+      td {
+        border: none;
+        padding: 6px 0 !important;
+      }
+
+      .bar-item {
+        grid-template-columns: 34px 1fr;
+      }
+
+      .bar-track {
+        margin-top: 8px;
+      }
+
+      .chart-wrap {
+        height: 280px;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <header>
   <div class="logo">
     <div class="logo-dot"></div>
-    <div class="logo-text">Monitor <span>Peruíbe</span></div>
+
+    <h2>
+      Monitor <span>Peruíbe</span>
+    </h2>
   </div>
+
   <div class="header-meta">
-    Coleta: 2026-05-08 &nbsp;·&nbsp; Taxa: R$ 4.92/USD &nbsp;·&nbsp; 350 registros
+    Coleta: 2026-05-08 &nbsp;·&nbsp; Taxa: R$ 4.92/USD &nbsp;·&nbsp; 700 registros
   </div>
 </header>
 
 <main>
 
-  <!-- KPIs -->
-  <div class="kpis">
+  <section class="hero">
+    <span class="hero-badge">
+      MARKET INTELLIGENCE
+    </span>
+
+    <h1>
+      Dashboard competitivo
+      de pousadas
+    </h1>
+
+    <p>
+      Monitoramento diário de preços, posicionamento competitivo,
+      tendências de mercado e comportamento da concorrência em Peruíbe.
+      </p>
+  </section>
+
+  <section class="kpis">
+
     <div class="kpi green">
       <div class="kpi-body">
         <div class="kpi-label">Menor preco</div>
@@ -187,8 +553,7 @@
         <div class="kpi-sub">HOSTEL Pérolas de Pe...</div>
       </div>
     </div>
-    </div>
-    </div>
+
     <div class="kpi blue">
       <div class="kpi-body">
         <div class="kpi-label">Preco medio mercado</div>
@@ -196,8 +561,7 @@
         <div class="kpi-sub">47 pousadas com preco</div>
       </div>
     </div>
-    </div>
-    </div>
+
     <div class="kpi orange">
       <div class="kpi-body">
         <div class="kpi-label">Maior preco</div>
@@ -205,8 +569,7 @@
         <div class="kpi-sub">Recanto Dumar...</div>
       </div>
     </div>
-    </div>
-    </div>
+
     <div class="kpi gray">
       <div class="kpi-body">
         <div class="kpi-label">Concorrentes monitorados</div>
@@ -214,195 +577,192 @@
         <div class="kpi-sub">Top 50 · 7 dias a frente</div>
       </div>
     </div>
-    </div>
-    </div>
+
+  </section>
+
+  <div class="section-title">
+    Ranking competitivo
   </div>
 
-  <!-- Ranking -->
-  <div class="section-title">Ranking de preços</div>
-  <div class="grid3">
+  <section class="grid-main">
+
     <div class="card">
-      <div class="card-title">Preço médio por pousada <span class="tag">BRL · 7 dias</span></div>
-      <table class="price-table">
-        <colgroup>
-          <col class="col-rank">
-          <col class="col-nome">
-          <col class="col-aval">
-          <col class="col-preco">
-        </colgroup>
+
+      <div class="card-title">
+        <span>Preço médio por pousada</span>
+        <span class="tag">7 dias</span>
+      </div>
+
+      <table>
         <thead>
           <tr>
-            <th></th>
-            <th style="text-align:left">Estabelecimento</th>
-            <th>Aval.</th>
-            <th>Preço/noite</th>
+            <th>#</th>
+            <th>Estabelecimento</th>
+            <th>Avaliação</th>
+            <th>Preço</th>
           </tr>
         </thead>
-        <tbody id="tableBody"></tbody>
+
+        <tbody id="tableBody">
+          <!-- Conteúdo carregado dinamicamente pelo banco de dados -->
+        </tbody>
       </table>
+
     </div>
-    <div class="card">
-      <div class="card-title">Preço vs Avaliação</div>
-      <div class="chart-wrap-tall">
-        <canvas id="scatterChart"></canvas>
-      </div>
-    </div>
+
+  </section>
+
+  <div class="section-title">
+    Análise de mercado
   </div>
 
-  <!-- Distribuição -->
-  <div class="section-title">Distribuição e alertas</div>
-  <div class="card" style="margin-bottom:24px">
-    <div class="card-title">Distribuição de preços <span class="tag">faixas em BRL</span></div>
+  <section class="card" style="margin-bottom: 24px;">
+
+    <div class="card-title">
+      <span>Preço vs avaliação</span>
+      <span class="tag">Scatter</span>
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="scatterChart"></canvas>
+    </div>
+
+  </section>
+
+  <div class="section-title">
+    Distribuição de mercado
+  </div>
+
+  <section class="card histogram">
+
+    <div class="card-title">
+      <span>Distribuição de preços</span>
+      <span class="tag">Histograma</span>
+    </div>
+
     <div class="chart-wrap">
       <canvas id="histChart"></canvas>
     </div>
-  </div>
 
-  <!-- Comparativo completo -->
-  <div class="section-title">Comparativo completo</div>
-  <div class="card" style="margin-bottom:0">
-    <div class="card-title">Preço médio por estabelecimento — ordenado por valor</div>
-
-    <!-- Canvas: visível em desktop/tablet -->
-    <div id="barWrap" class="bar-chart-canvas" style="position:relative">
-      <canvas id="barChart"></canvas>
-    </div>
-
-    <!-- Lista HTML: visível em mobile (sem scroll horizontal) -->
-    <div class="bar-list" id="barList"></div>
-  </div>
-
-</main>
-
+  </section>
 <footer>
-  Pousada Peruíbe 455 &nbsp;·&nbsp; Dados: Google Hotels via Playwright &nbsp;·&nbsp; Atualizado diariamente
+  Pousada Peruíbe 455 · Dados: Google Hotels via Playwright · Dashboard reformulado
 </footer>
 
 <script>
-const POUSADAS = [{"nome": "HOSTEL P\u00e9rolas de Peru\u00edbe", "preco": 69, "aval": 3.5, "reviews": "245"}, {"nome": "Recanto Praia Peruibe", "preco": 100, "aval": 4.5, "reviews": "105"}, {"nome": "Pousada Aconchego Peru\u00edbe", "preco": 130, "aval": 3.8, "reviews": "404"}, {"nome": "Pousada Green Ville", "preco": 130, "aval": 4.7, "reviews": "83"}, {"nome": "Pousada Peru\u00edbe Ta em Casa", "preco": 140, "aval": 4.5, "reviews": "203"}, {"nome": "Surfside Suites Hotel", "preco": 140, "aval": 4.9, "reviews": "282"}, {"nome": "Porto Su\u00edtes - Check-out Livre aos Domingos", "preco": 150, "aval": 4.6, "reviews": "161"}, {"nome": "Pousada Litoreza Guarau Peru\u00edbe", "preco": 150, "aval": 4.7, "reviews": "343"}, {"nome": "Pousada Peru\u00edbe Frente ao Mar - Apto, kits e Su\u00edtes", "preco": 160, "aval": 4.6, "reviews": "89"}, {"nome": "Su\u00edtes Temporada Favorita", "preco": 167, "aval": 4.4, "reviews": "37"}, {"nome": "Pousada Encantos de Peru\u00edbe", "preco": 171, "aval": 4.7, "reviews": "12"}, {"nome": "Pousada Peruibe Ametista", "preco": 175, "aval": 4.6, "reviews": "621"}, {"nome": "CASA MAR PERUIBE", "preco": 182, "aval": 4.6, "reviews": "113"}, {"nome": "Pousada Peruibe Praia", "preco": 186, "aval": 4.5, "reviews": "382"}, {"nome": "Rancho Ohana Peru\u00edbe SP", "preco": 189, "aval": 4.8, "reviews": "25"}, {"nome": "Pousada Chacara Estrela Do Mar", "preco": 190, "aval": 4.7, "reviews": "59"}, {"nome": "Pousada Makt\u00fcb", "preco": 199, "aval": 4.8, "reviews": "120"}, {"nome": "Peru\u00edbe Su\u00edte Flat Hotel", "preco": 210, "aval": 4.2, "reviews": "764"}, {"nome": "Vargas Peruibe Hotel", "preco": 214, "aval": 4.6, "reviews": "342"}, {"nome": "Mar Egeu Arte & Pouso", "preco": 216, "aval": 4.0, "reviews": "199"}, {"nome": "Recanto da Zizi pousada", "preco": 216, "aval": 4.3, "reviews": "122"}, {"nome": "Pousada Beira Mar Peru\u00edbe", "preco": 220, "aval": 4.9, "reviews": "63"}, {"nome": "Pousada Peruibe 455", "preco": 224, "aval": 4.4, "reviews": "247"}, {"nome": "Pousada do Sol", "preco": 239, "aval": 5.0, "reviews": "1"}, {"nome": "Hotel Leblon Peru\u00edbe", "preco": 244, "aval": 4.0, "reviews": "371"}, {"nome": "Pousada Porto Aventura", "preco": 245, "aval": 4.5, "reviews": "179"}, {"nome": "Grand Mar\u00e9 Hotel Peru\u00edbe", "preco": 261, "aval": 4.6, "reviews": "78"}, {"nome": "Guara\u00fa surf house chal\u00e9s", "preco": 268, "aval": 0, "reviews": "0"}, {"nome": "Inn Pier 36", "preco": 279, "aval": 4.6, "reviews": "301"}, {"nome": "Pousada Ecol\u00f3gica Cavalo de Pedra", "preco": 280, "aval": 4.8, "reviews": "118"}, {"nome": "Pousada e Col\u00f4nia de F\u00e9rias APATEJ", "preco": 283, "aval": 4.7, "reviews": "76"}, {"nome": "Pousada Gaivotas", "preco": 286, "aval": 4.3, "reviews": "414"}, {"nome": "Hotel Haloha || Hotel Praia do Centro || Hospedagem em Peru\u00edbe || Hospedagem Familiar Peruibe", "preco": 294, "aval": 3.4, "reviews": "106"}, {"nome": "Hotel Pousada Xapuri", "preco": 295, "aval": 4.6, "reviews": "575"}, {"nome": "Toka do Lula", "preco": 302, "aval": 4.5, "reviews": "1,0\u00a0mil"}, {"nome": "Mar e Sol", "preco": 306, "aval": 4.8, "reviews": "13"}, {"nome": "Hospedaria Namast\u00ea", "preco": 320, "aval": 5.0, "reviews": "30"}, {"nome": "Hotel Casar\u00e3o de Peru\u00edbe", "preco": 329, "aval": 4.7, "reviews": "350"}, {"nome": "Pousada Peruibiza", "preco": 332, "aval": 4.6, "reviews": "113"}, {"nome": "Pousada Spa Peru\u00edbe", "preco": 350, "aval": 4.5, "reviews": "41"}, {"nome": "Pousada O\u00e1sis de Peru\u00edbe", "preco": 362, "aval": 4.8, "reviews": "157"}, {"nome": "Hotel Alaska", "preco": 379, "aval": 4.1, "reviews": "266"}, {"nome": "Col\u00f4nia de F\u00e9rias Sindifastfood S\u00e3o Paulo/SP", "preco": 384, "aval": 4.4, "reviews": "247"}, {"nome": "Pousada Vila Thaynara", "preco": 420, "aval": 4.5, "reviews": "6"}, {"nome": "Pousada Sollar Viegas", "preco": 476, "aval": 4.6, "reviews": "17"}, {"nome": "Aurora Family Hotel", "preco": 535, "aval": 4.6, "reviews": "207"}, {"nome": "Recanto Dumar", "preco": 1149, "aval": 5.0, "reviews": "50"}];
 
-const SEM_PRECO  = [];
-const MAX_PRECO  = Math.max(...POUSADAS.map(p => p.preco));
-const vw         = window.innerWidth;
-const isMobile   = vw < 600;
-const isNarrow   = vw < 420;
+Chart.defaults.color = '#9ca3af';
+Chart.defaults.font.family = 'Inter';
 
-// ── Tabela ────────────────────────────────────────────────────
-const tbody = document.getElementById('tableBody');
-POUSADAS.forEach((p, i) => {
-  const rank = i + 1;
-  const cls  = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-n';
-  const barW = Math.round((p.preco / MAX_PRECO) * 100);
-  const col  = p.preco<=100?'var(--accent)':p.preco<=180?'var(--accent2)':'var(--warn)';
-  tbody.innerHTML += `
-    <tr>
-      <td><span class="rank-badge ${cls}">${rank}</span></td>
-      <td>
-        <span class="nome-text" title="${p.nome}">${p.nome}</span>
-        <span class="nome-sub">${p.reviews} aval.</span>
-      </td>
-      <td class="col-aval">
-        <span class="stars-val">★ ${p.aval||'–'}</span>
-      </td>
-      <td>
-        <div class="price-bar-wrap">
-          <div class="price-bar-bg"><div class="price-bar-fill" style="width:${barW}%;background:${col}"></div></div>
-          <span class="price-val">R$&nbsp;${p.preco}</span>
-        </div>
-      </td>
-    </tr>`;
-});
+const scatterCtx = document.getElementById('scatterChart');
 
-// ── Lista HTML mobile (bar chart alternativo) ─────────────────
-const barList = document.getElementById('barList');
-POUSADAS.forEach((p, i) => {
-  const barW = Math.round((p.preco / MAX_PRECO) * 100);
-  const col  = p.preco<=100?'var(--accent)':p.preco<=180?'var(--accent2)':'var(--warn)';
-  barList.innerHTML += `
-    <div class="bar-item">
-      <span class="bar-rank">${i+1}</span>
-      <span class="bar-nome" title="${p.nome}">${p.nome}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${barW}%;background:${col}"></div></div>
-      <span class="bar-price" style="color:${col}">R$${p.preco}</span>
-    </div>`;
-});
-
-// ── Chart.js defaults ─────────────────────────────────────────
-Chart.defaults.color = '#6b7280';
-Chart.defaults.font.family = "'DM Mono', monospace";
-Chart.defaults.font.size = isNarrow ? 8 : isMobile ? 9 : 10;
-const gridColor = 'rgba(31,36,51,0.8)';
-
-// ── Scatter ───────────────────────────────────────────────────
-new Chart(document.getElementById('scatterChart'), {
+new Chart(scatterCtx, {
   type: 'scatter',
-  data: { datasets: [{ label: 'Pousadas',
-    data: POUSADAS.map(p => ({ x: p.aval, y: p.preco, nome: p.nome })),
-    backgroundColor: POUSADAS.map(p => p.preco<=100?'rgba(0,229,160,.8)':p.preco<=180?'rgba(0,102,255,.8)':'rgba(255,107,53,.8)'),
-    pointRadius: isMobile ? 4 : 6, pointHoverRadius: isMobile ? 6 : 8,
-  }]},
-  options: { responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false },
-      tooltip: { callbacks: { label: ctx => `${ctx.raw.nome.slice(0,22)} · R$${ctx.raw.y}` }}},
-    scales: {
-      x: { title: { display: !isMobile, text: 'Avaliação' }, min: 1.5, max: 5.2, grid: { color: gridColor },
-           ticks: { maxTicksLimit: isMobile ? 4 : 6, font: { size: isMobile ? 8 : 10 } }},
-      y: { title: { display: !isMobile, text: 'R$/noite' }, grid: { color: gridColor },
-           ticks: { maxTicksLimit: isMobile ? 5 : 7, font: { size: isMobile ? 8 : 10 }, callback: v => 'R$'+v }},
-    }
-  }
-});
 
-// ── Histograma ────────────────────────────────────────────────
-const faixasLabel = isNarrow
-  ? ['<100','100+','150+','200+','250+']
-  : isMobile ? ['<100','100–149','150–199','200–249','250+']
-  : ['<R$100','R$100–149','R$150–199','R$200–249','R$250+'];
-const counts = [0,0,0,0,0];
-POUSADAS.forEach(p => {
-  if (p.preco<100) counts[0]++;
-  else if (p.preco<150) counts[1]++;
-  else if (p.preco<200) counts[2]++;
-  else if (p.preco<250) counts[3]++;
-  else counts[4]++;
-});
-new Chart(document.getElementById('histChart'), {
-  type: 'bar',
-  data: { labels: faixasLabel, datasets: [{
-    data: counts, borderRadius: 6,
-    backgroundColor: ['rgba(0,229,160,.7)','rgba(0,102,255,.7)','rgba(0,102,255,.5)','rgba(255,107,53,.6)','rgba(255,107,53,.8)'],
-  }]},
-  options: { responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { display: false }, ticks: { font: { size: isMobile ? 8 : 10 } }},
-      y: { ticks: { stepSize: 1, maxTicksLimit: 7, font: { size: isMobile ? 8 : 10 } }, grid: { color: gridColor }},
-    }
-  }
-});
+  data: {
+    datasets: [
+      {
+        label: 'Pousadas',
 
-// ── Bar chart (desktop/tablet apenas) ─────────────────────────
-if (!isMobile) {
-  const barWrap = document.getElementById('barWrap');
-  barWrap.style.height = (POUSADAS.length * 26 + 40) + 'px';
-  new Chart(document.getElementById('barChart'), {
-    type: 'bar',
-    data: {
-      labels: POUSADAS.map(p => p.nome.length > 24 ? p.nome.slice(0,23)+'…' : p.nome),
-      datasets: [{ data: POUSADAS.map(p => p.preco), borderRadius: 3,
-        backgroundColor: POUSADAS.map(p => p.preco<=100?'rgba(0,229,160,.75)':p.preco<=180?'rgba(0,102,255,.75)':'rgba(255,107,53,.75)'),
-      }]
+        data: [
+          { x: 3.5, y: 69 },
+          { x: 4.5, y: 100 },
+          { x: 4.7, y: 130 },
+          { x: 4.9, y: 140 },
+          { x: 4.6, y: 535 }
+        ],
+
+        pointRadius: 8,
+
+        backgroundColor: [
+          'rgba(0,212,146,.8)',
+          'rgba(59,130,246,.8)',
+          'rgba(59,130,246,.8)',
+          'rgba(59,130,246,.8)',
+          'rgba(251,146,60,.8)'
+        ]
+      }
+    ]
+  },
+
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+
+    plugins: {
+      legend: {
+        display: false
+      }
     },
-    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false },
-        tooltip: { callbacks: { title: c => POUSADAS[c[0].dataIndex].nome, label: c => ` R$ ${c.raw}` }}},
-      scales: {
-        x: { grid: { color: gridColor }, ticks: { callback: v => 'R$'+v, maxTicksLimit: 6, font: { size: 9 } }},
-        y: { grid: { display: false }, ticks: { font: { size: 9 } }},
+
+    scales: {
+      x: {
+        grid: {
+          color: 'rgba(255,255,255,.06)'
+        }
+      },
+
+      y: {
+        grid: {
+          color: 'rgba(255,255,255,.06)'
+        }
       }
     }
-  });
-}
+  }
+});
+
+const histCtx = document.getElementById('histChart');
+
+new Chart(histCtx, {
+  type: 'bar',
+
+  data: {
+    labels: ['<100', '100-149', '150-249', '250-499', '500+'],
+
+    datasets: [
+      {
+        data: [1, 3, 15, 22, 6],
+
+        borderRadius: 10,
+
+        backgroundColor: [
+          'rgba(0,212,146,.75)',
+          'rgba(59,130,246,.75)',
+          'rgba(59,130,246,.6)',
+          'rgba(251,146,60,.65)',
+          'rgba(251,146,60,.85)'
+        ]
+      }
+    ]
+  },
+
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+
+    scales: {
+      x: {
+        grid: {
+          display: false
+        }
+      },
+
+      y: {
+        grid: {
+          color: 'rgba(255,255,255,.06)'
+        }
+      }
+    }
+  }
+});
+
 </script>
+
 </body>
 </html>
