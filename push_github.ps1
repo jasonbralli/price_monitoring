@@ -15,9 +15,9 @@ if ($LASTEXITCODE -ne 0) {
 $data = Get-Date -Format "yyyy-MM-dd HH:mm"
 Write-Host "Enviando para o GitHub..." -ForegroundColor Cyan
 
-git add dashboard.html dados/log.txt
+git add index.html dados/log.txt
 git commit -m "coleta $data"
 git push origin main
 
 Write-Host ""
-Write-Host "OK — GitHub Pages atualizado em $data" -ForegroundColor Green
+Write-Host "OK - GitHub Pages atualizado em $data" -ForegroundColor Green

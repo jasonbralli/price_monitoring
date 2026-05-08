@@ -867,3 +867,4 @@
 ✓ Concluído — 350 registros salvos
 [2026-05-08 14:46:52] =======================================================
 [2026-05-08 14:46:52]   Iniciando push para o GitHub...
+[2026-05-08 14:46:55]   ✓ GitHub atualizado com sucesso
