@@ -1022,3 +1022,144 @@ Call log:
 ✓ Concluído — 320 registros salvos
 [2026-05-11 05:38:27] =======================================================
 [2026-05-11 05:38:27]   Iniciando push para o GitHub...
+[2026-05-11 05:38:32]   ✓ GitHub atualizado com sucesso
+[2026-05-11 08:00:03] ✓ Já executado hoje — encerrando
+[2026-05-12 07:51:34] =======================================================
+[2026-05-12 07:51:34] Iniciando coleta — Peruíbe SP v4.0
+[2026-05-12 07:51:34] =======================================================
+[2026-05-12 07:51:35]   Taxa USD/BRL: R$ 4.9020
+[2026-05-12 07:51:45]   → 2026-05-13
+[2026-05-12 07:51:55]   ⚠ Filtros não aplicados (Page.click: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator("label:has-text(\"Menor preço\"), [aria-label*=\"Menor preço\"]")
+    - locator resolved to <label for="c1" class="VfPpkd-V67aGc">Menor preço</label>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    5 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+) — continuando sem filtros
+[2026-05-12 07:52:00]     pág. 1: 20 cards → 20 novas
+[2026-05-12 07:52:31]     → Não foi possível clicar em Avançar: ElementHandle.click: Timeout 30000ms exceeded.
+Call log:
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="PPUsDb">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="Bz9vRc z0YF1" jsaction="JIbuQc: trigger.fCkKAb(JbbQac), trigger.LfdI9b(sfGayb)">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="PPUsDb">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    13 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="PPUsDb">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+       - waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="Bz9vRc z0YF1" jsaction="JIbuQc: trigger.fCkKAb(JbbQac), trigger.LfdI9b(sfGayb)">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+       - waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="PPUsDb">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+       - waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="PPUsDb">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="PPUsDb">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="Bz9vRc z0YF1" jsaction="JIbuQc: trigger.fCkKAb(JbbQac), trigger.LfdI9b(sfGayb)">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="PPUsDb">…</div> from <div class="wMMMNd" jsname="UawFZ">…</div> subtree intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+
+[2026-05-12 07:52:31]   ✓ 20 pousadas | acumulado: 20
+[2026-05-12 07:52:37]   → 2026-05-14
+[2026-05-12 07:52:46]   ✓ Filtros aplicados via clique
+[2026-05-12 07:52:51]     pág. 1: 18 cards → 18 novas
+[2026-05-12 07:52:58]     pág. 2: 18 cards → 18 novas
+[2026-05-12 07:53:05]     pág. 3: 18 cards → 18 novas
+[2026-05-12 07:53:05]     → Limite de 50 atingido, encerrando paginação
+[2026-05-12 07:53:05]   ✓ 50 pousadas | acumulado: 70
+[2026-05-12 07:53:10]   → 2026-05-15
+[2026-05-12 07:53:18]     pág. 1: 20 cards → 20 novas
+[2026-05-12 07:53:25]     pág. 2: 20 cards → 19 novas
+[2026-05-12 07:53:32]     pág. 3: 20 cards → 20 novas
+[2026-05-12 07:53:32]     → Limite de 50 atingido, encerrando paginação
+[2026-05-12 07:53:32]   ✓ 50 pousadas | acumulado: 120
+[2026-05-12 07:53:38]   → 2026-05-16
+[2026-05-12 07:53:50]     pág. 1: 20 cards → 20 novas
+[2026-05-12 07:53:56]     pág. 2: 20 cards → 17 novas
+[2026-05-12 07:54:04]     pág. 3: 20 cards → 18 novas
+[2026-05-12 07:54:04]     → Limite de 50 atingido, encerrando paginação
+[2026-05-12 07:54:04]   ✓ 50 pousadas | acumulado: 170
+[2026-05-12 07:54:10]   → 2026-05-17
+[2026-05-12 07:54:18]     pág. 1: 20 cards → 20 novas
+[2026-05-12 07:54:25]     pág. 2: 20 cards → 19 novas
+[2026-05-12 07:54:32]     pág. 3: 20 cards → 20 novas
+[2026-05-12 07:54:32]     → Limite de 50 atingido, encerrando paginação
+[2026-05-12 07:54:32]   ✓ 50 pousadas | acumulado: 220
+[2026-05-12 07:54:37]   → 2026-05-18
+[2026-05-12 07:54:46]     pág. 1: 20 cards → 20 novas
+[2026-05-12 07:54:53]     pág. 2: 20 cards → 19 novas
+[2026-05-12 07:54:59]     pág. 3: 20 cards → 20 novas
+[2026-05-12 07:54:59]     → Limite de 50 atingido, encerrando paginação
+[2026-05-12 07:54:59]   ✓ 50 pousadas | acumulado: 270
+[2026-05-12 07:55:07]   → 2026-05-19
+[2026-05-12 07:55:16]     pág. 1: 20 cards → 20 novas
+[2026-05-12 07:55:23]     pág. 2: 20 cards → 18 novas
+[2026-05-12 07:55:29]     pág. 3: 20 cards → 20 novas
+[2026-05-12 07:55:29]     → Limite de 50 atingido, encerrando paginação
+[2026-05-12 07:55:29]   ✓ 50 pousadas | acumulado: 320
+[2026-05-12 07:55:34] 
+✓ Concluído — 320 registros salvos
+[2026-05-12 07:55:34] =======================================================
+[2026-05-12 07:55:34]   Iniciando push para o GitHub...
