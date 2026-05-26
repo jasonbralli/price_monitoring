@@ -1861,3 +1861,59 @@ Call log:
 [2026-05-25 07:01:32] =======================================================
 [2026-05-25 07:01:32]   ✓ Dashboard atualizado
 [2026-05-25 07:01:32]   Iniciando push para o GitHub...
+[2026-05-25 07:01:37]   ✓ GitHub atualizado com sucesso
+[2026-05-25 08:00:01] ✓ Já executado hoje — encerrando
+[2026-05-26 05:17:52] =======================================================
+[2026-05-26 05:17:52] Iniciando coleta — Peruíbe SP v4.0
+[2026-05-26 05:17:52] =======================================================
+[2026-05-26 05:17:53]   Taxa USD/BRL: R$ 5.0086
+[2026-05-26 05:18:02]   → 2026-05-27
+[2026-05-26 05:18:19]   ✓ Filtros aplicados via clique
+[2026-05-26 05:18:24]     pág. 1: 20 cards → 20 novas
+[2026-05-26 05:18:25]     → Não foi possível clicar em Avançar: ElementHandle.scroll_into_view_if_needed: Element is not attached to the DOM
+Call log:
+  - attempting scroll into view action
+    - waiting for element to be stable
+
+[2026-05-26 05:18:25]   ✓ 20 pousadas | acumulado: 20
+[2026-05-26 05:18:30]   → 2026-05-28
+[2026-05-26 05:18:38]     pág. 1: 20 cards → 20 novas
+[2026-05-26 05:18:45]     pág. 2: 20 cards → 20 novas
+[2026-05-26 05:18:52]     pág. 3: 20 cards → 20 novas
+[2026-05-26 05:18:52]     → Limite de 50 atingido, encerrando paginação
+[2026-05-26 05:18:52]   ✓ 50 pousadas | acumulado: 70
+[2026-05-26 05:18:58]   → 2026-05-29
+[2026-05-26 05:19:06]     pág. 1: 20 cards → 20 novas
+[2026-05-26 05:19:12]     pág. 2: 20 cards → 20 novas
+[2026-05-26 05:19:18]     pág. 3: 20 cards → 20 novas
+[2026-05-26 05:19:18]     → Limite de 50 atingido, encerrando paginação
+[2026-05-26 05:19:18]   ✓ 50 pousadas | acumulado: 120
+[2026-05-26 05:19:24]   → 2026-05-30
+[2026-05-26 05:19:31]     pág. 1: 20 cards → 20 novas
+[2026-05-26 05:19:38]     pág. 2: 20 cards → 20 novas
+[2026-05-26 05:19:46]     pág. 3: 20 cards → 20 novas
+[2026-05-26 05:19:46]     → Limite de 50 atingido, encerrando paginação
+[2026-05-26 05:19:46]   ✓ 50 pousadas | acumulado: 170
+[2026-05-26 05:19:51]   → 2026-05-31
+[2026-05-26 05:19:59]     pág. 1: 20 cards → 20 novas
+[2026-05-26 05:20:06]     pág. 2: 20 cards → 20 novas
+[2026-05-26 05:20:12]     pág. 3: 20 cards → 20 novas
+[2026-05-26 05:20:12]     → Limite de 50 atingido, encerrando paginação
+[2026-05-26 05:20:12]   ✓ 50 pousadas | acumulado: 220
+[2026-05-26 05:20:19]   → 2026-06-01
+[2026-05-26 05:20:26]     pág. 1: 20 cards → 20 novas
+[2026-05-26 05:20:34]     pág. 2: 20 cards → 20 novas
+[2026-05-26 05:20:41]     pág. 3: 20 cards → 20 novas
+[2026-05-26 05:20:41]     → Limite de 50 atingido, encerrando paginação
+[2026-05-26 05:20:41]   ✓ 50 pousadas | acumulado: 270
+[2026-05-26 05:20:47]   → 2026-06-02
+[2026-05-26 05:20:55]     pág. 1: 20 cards → 20 novas
+[2026-05-26 05:21:02]     pág. 2: 20 cards → 20 novas
+[2026-05-26 05:21:09]     pág. 3: 20 cards → 20 novas
+[2026-05-26 05:21:09]     → Limite de 50 atingido, encerrando paginação
+[2026-05-26 05:21:09]   ✓ 50 pousadas | acumulado: 320
+[2026-05-26 05:21:15] 
+✓ Concluído — 320 registros salvos
+[2026-05-26 05:21:15] =======================================================
+[2026-05-26 05:21:15]   ✓ Dashboard atualizado
+[2026-05-26 05:21:15]   Iniciando push para o GitHub...
