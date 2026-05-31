@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Monitor de Preços — Peruíbe SP
 
 Coleta automática diária de preços de pousadas concorrentes
@@ -108,6 +107,3 @@ Solução:
 - [ ] Gráfico histórico de preços por pousada
 - [ ] Alerta por e-mail quando concorrente baixar o preço abaixo de X
 =======
-# price_monitoring
-A simple solution for monitoring daily rates at inns and hotels.
->>>>>>> cb18cac244cb336c4b03aa305ab5ca83a5a488ed
