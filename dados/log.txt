@@ -2882,3 +2882,122 @@ Call log:
 [2026-06-13 05:49:45] =======================================================
 [2026-06-13 05:49:45]   ✓ Dashboard atualizado
 [2026-06-13 05:49:45]   Iniciando push para o GitHub...
+[2026-06-13 05:49:50]   ✓ GitHub atualizado com sucesso
+[2026-06-13 07:15:07] ✓ Já executado hoje — encerrando
+[2026-06-13 07:47:57] ✓ Já executado hoje — encerrando
+[2026-06-13 08:00:02] ✓ Já executado hoje — encerrando
+[2026-06-13 11:07:56] ✓ Já executado hoje — encerrando
+[2026-06-13 17:15:41] ✓ Já executado hoje — encerrando
+[2026-06-14 06:53:10] =======================================================
+[2026-06-14 06:53:10] Iniciando coleta — Peruíbe SP v4.0
+[2026-06-14 06:53:10] =======================================================
+[2026-06-14 06:53:10]   Taxa USD/BRL: R$ 5.0565
+[2026-06-14 06:53:19]   → 2026-06-15
+[2026-06-14 06:53:39]   ✓ Filtros aplicados via clique
+[2026-06-14 06:53:45]     pág. 1: 20 cards → 20 novas
+[2026-06-14 06:53:52]     pág. 2: 20 cards → 0 novas
+[2026-06-14 06:54:19]     → Não foi possível clicar em Avançar: ElementHandle.scroll_into_view_if_needed: Element is not attached to the DOM
+Call log:
+  - attempting scroll into view action
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+    - waiting 20ms
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+      - waiting 100ms
+    49 × waiting for element to be stable
+       - element is not visible
+     - retrying scroll into view action
+       - waiting 500ms
+    - waiting for element to be stable
+
+[2026-06-14 06:54:19]   ✓ 20 pousadas | acumulado: 20
+[2026-06-14 06:54:26]   → 2026-06-16
+[2026-06-14 06:54:34]     pág. 1: 20 cards → 20 novas
+[2026-06-14 06:54:42]     pág. 2: 20 cards → 0 novas
+[2026-06-14 06:55:03]     → Não foi possível clicar em Avançar: ElementHandle.scroll_into_view_if_needed: Element is not attached to the DOM
+Call log:
+  - attempting scroll into view action
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+    - waiting 20ms
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+      - waiting 100ms
+    38 × waiting for element to be stable
+       - element is not visible
+     - retrying scroll into view action
+       - waiting 500ms
+    - waiting for element to be stable
+
+[2026-06-14 06:55:03]   ✓ 20 pousadas | acumulado: 40
+[2026-06-14 06:55:09]   → 2026-06-17
+[2026-06-14 06:55:39]   ✗ Timeout ao carregar página
+[2026-06-14 06:55:39]   ✓ 0 pousadas | acumulado: 40
+[2026-06-14 06:55:46]   → 2026-06-18
+[2026-06-14 06:56:16]   ✗ Timeout ao carregar página
+[2026-06-14 06:56:16]   ✓ 0 pousadas | acumulado: 40
+[2026-06-14 06:56:22]   → 2026-06-19
+[2026-06-14 06:56:22] ✗ Erro fatal: Page.goto: net::ERR_CONNECTION_RESET at https://www.google.com/travel/hotels/Peru%C3%ADbe?q=pousadas+em+peruibe+sp&hl=pt-BR&gl=BR&curr=BRL&checkin=2026-06-19&checkout=2026-06-20
+Call log:
+  - navigating to "https://www.google.com/travel/hotels/Peru%C3%ADbe?q=pousadas+em+peruibe+sp&hl=pt-BR&gl=BR&curr=BRL&checkin=2026-06-19&checkout=2026-06-20", waiting until "domcontentloaded"
+
+[2026-06-14 06:56:22] 
+✓ Concluído — 40 registros salvos
+[2026-06-14 06:56:22] =======================================================
+[2026-06-14 08:00:02] =======================================================
+[2026-06-14 08:00:02] Iniciando coleta — Peruíbe SP v4.0
+[2026-06-14 08:00:02] =======================================================
+[2026-06-14 08:00:02]   Taxa USD/BRL: R$ 5.0565
+[2026-06-14 08:00:08]   → 2026-06-15
+[2026-06-14 08:00:26]   ✓ Filtros aplicados via clique
+[2026-06-14 08:00:31]     pág. 1: 18 cards → 18 novas
+[2026-06-14 08:00:39]     pág. 2: 18 cards → 18 novas
+[2026-06-14 08:00:47]     pág. 3: 18 cards → 18 novas
+[2026-06-14 08:00:47]     → Limite de 50 atingido, encerrando paginação
+[2026-06-14 08:00:47]   ✓ 50 pousadas | acumulado: 50
+[2026-06-14 08:00:55]   → 2026-06-16
+[2026-06-14 08:01:02]     pág. 1: 20 cards → 20 novas
+[2026-06-14 08:01:09]     pág. 2: 20 cards → 19 novas
+[2026-06-14 08:01:16]     pág. 3: 20 cards → 20 novas
+[2026-06-14 08:01:16]     → Limite de 50 atingido, encerrando paginação
+[2026-06-14 08:01:16]   ✓ 50 pousadas | acumulado: 100
+[2026-06-14 08:01:23]   → 2026-06-17
+[2026-06-14 08:01:30]     pág. 1: 20 cards → 20 novas
+[2026-06-14 08:01:38]     pág. 2: 20 cards → 19 novas
+[2026-06-14 08:01:44]     pág. 3: 20 cards → 20 novas
+[2026-06-14 08:01:44]     → Limite de 50 atingido, encerrando paginação
+[2026-06-14 08:01:44]   ✓ 50 pousadas | acumulado: 150
+[2026-06-14 08:01:52]   → 2026-06-18
+[2026-06-14 08:01:59]     pág. 1: 20 cards → 20 novas
+[2026-06-14 08:02:07]     pág. 2: 20 cards → 19 novas
+[2026-06-14 08:02:14]     pág. 3: 20 cards → 20 novas
+[2026-06-14 08:02:14]     → Limite de 50 atingido, encerrando paginação
+[2026-06-14 08:02:14]   ✓ 50 pousadas | acumulado: 200
+[2026-06-14 08:02:20]   → 2026-06-19
+[2026-06-14 08:02:28]     pág. 1: 20 cards → 20 novas
+[2026-06-14 08:02:35]     pág. 2: 20 cards → 19 novas
+[2026-06-14 08:02:42]     pág. 3: 20 cards → 20 novas
+[2026-06-14 08:02:42]     → Limite de 50 atingido, encerrando paginação
+[2026-06-14 08:02:43]   ✓ 50 pousadas | acumulado: 250
+[2026-06-14 08:02:50]   → 2026-06-20
+[2026-06-14 08:02:58]     pág. 1: 20 cards → 20 novas
+[2026-06-14 08:03:04]     pág. 2: 20 cards → 19 novas
+[2026-06-14 08:03:12]     pág. 3: 20 cards → 20 novas
+[2026-06-14 08:03:12]     → Limite de 50 atingido, encerrando paginação
+[2026-06-14 08:03:12]   ✓ 50 pousadas | acumulado: 300
+[2026-06-14 08:03:18]   → 2026-06-21
+[2026-06-14 08:03:26]     pág. 1: 20 cards → 20 novas
+[2026-06-14 08:03:32]     pág. 2: 20 cards → 19 novas
+[2026-06-14 08:03:39]     pág. 3: 20 cards → 20 novas
+[2026-06-14 08:03:39]     → Limite de 50 atingido, encerrando paginação
+[2026-06-14 08:03:39]   ✓ 50 pousadas | acumulado: 350
+[2026-06-14 08:03:47] 
+✓ Concluído — 350 registros salvos
+[2026-06-14 08:03:47] =======================================================
+[2026-06-14 08:03:47]   ✓ Dashboard atualizado
+[2026-06-14 08:03:47]   Iniciando push para o GitHub...
