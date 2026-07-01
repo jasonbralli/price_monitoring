@@ -38,10 +38,12 @@ URL_BASE = (
 
 # ─── Push GitHub ──────────────────────────────────────────────────
 def push_github():
-    script = BASE_DIR / "push_github.ps1"
+    """Atualiza dashboard e faz push para o GitHub."""
+    script = Path(__file__).parent / "push_github.ps1"
     if not script.exists():
         log("  ⚠ push_github.ps1 não encontrado — pulando push")
         return
+    
     log("  Iniciando push para o GitHub...")
     result = subprocess.run(
         ["powershell", "-ExecutionPolicy", "Bypass", "-File", str(script)],
@@ -129,8 +131,8 @@ def parsear_html(html: str, checkin: str, checkout: str, url: str, taxa: float) 
             avaliacao, reviews = None, None
             textos = list(card.stripped_strings)
             for j, txt in enumerate(textos):
-                if re.match(r"^[1-5][,\.]\d$", txt.strip()):
-                    try: avaliacao = float(txt.strip().replace(",","."))
+                if re.match(r"^[1-5][,\.]\\d$", txt.strip()):
+                    try: avaliacao = float(txt.strip().replace(",", "."))
                     except: pass
                     if j+1 < len(textos):
                         prox = textos[j+1].strip()
@@ -155,14 +157,33 @@ def aplicar_filtros(page):
     Executado uma única vez após carregar a primeira data.
     """
     try:
+        # Fecha qualquer overlay/modal que possa estar bloqueando (cookie banner, popup)
+        for sel in [
+            'button:has-text("Aceitar")', 'button:has-text("Concordar")',
+            'button:has-text("Reject all")', 'button:has-text("Accept all")',
+            '[aria-label="Close"]', 'button:has-text("Não agora")',
+        ]:
+            try:
+                page.click(sel, timeout=1500)
+                time.sleep(0.5)
+            except Exception:
+                pass
+
         # Clica em "Todos os filtros"
         page.click('button:has-text("Todos os filtros"), button:has-text("filtros")',
                    timeout=5000)
         time.sleep(1.5)
 
-        # Seleciona "Menor preço"
-        page.click('label:has-text("Menor preço"), [aria-label*="Menor preço"]',
-                   timeout=3000)
+        # Tenta clique normal primeiro; se falhar por visibilidade, usa dispatch_event
+        label_sel = 'label:has-text("Menor preço"), [aria-label*="Menor preço"]'
+        try:
+            page.click(label_sel, timeout=3000)
+        except Exception:
+            el = page.query_selector(label_sel)
+            if el:
+                el.dispatch_event("click")
+            else:
+                raise RuntimeError("label 'Menor preço' não encontrado no DOM")
         time.sleep(0.8)
 
         # Fecha o painel de filtros
@@ -229,7 +250,11 @@ def coletar_data(page, checkin: str, checkout: str, taxa: float,
         try:
             btn.scroll_into_view_if_needed()
             time.sleep(0.5)
-            btn.click()
+            try:
+                btn.click(timeout=10000)
+            except Exception:
+                # Overlay bloqueando — usa dispatch_event para ignorar interseção
+                btn.dispatch_event("click")
             time.sleep(random.uniform(2.5, 4.0))
             pagina += 1
         except Exception as e:
@@ -312,6 +337,17 @@ def main():
     log("=" * 55)
 
     if status == "ok":
+        # Atualiza o dashboard antes do push
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location(
+                "dashboard", BASE_DIR / "src" / "dashboard.py")
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            mod.atualizar_dashboard()
+            log("  ✓ Dashboard atualizado")
+        except Exception as e:
+            log(f"  ⚠ Erro ao atualizar dashboard: {e}")
         push_github()
 
 
