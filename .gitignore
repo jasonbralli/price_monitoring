@@ -14,7 +14,27 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+.env.local
+
+# Logs
+*.log
+
+# Temporários e backups
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+*.iml
 
 # Windows
 Thumbs.db
 desktop.ini
+
+# Ambiente virtual
+venv/
+env/
+.venv/
