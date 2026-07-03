@@ -1,6 +1,6 @@
 """
 criar_tarefa.py — Cria a tarefa agendada no Windows via Python.
-Nao requer PowerShell assinado nem permissao de administrador.
+Requer PowerShell como Administrador para executar schtasks /create.
 Execute uma unica vez:  python criar_tarefa.py
 """
 
