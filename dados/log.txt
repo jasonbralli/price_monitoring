@@ -4167,3 +4167,25 @@ Refer�ncia de vari�vel inv�lida. ':' n�o era se
 [2026-07-02 22:08:44]   ⚠ Erro ao atualizar dashboard: [Errno 2] No such file or directory: 'C:\\Users\\Jason\\Desktop\\PROJETOS\\03 - DONE\\price_monitoring\\dashboard\\index.html'
 [2026-07-02 22:08:44]   ⚠ push_github.ps1 não encontrado — pulando push
 [2026-07-02 23:05:02] ✓ Já executado hoje — encerrando
+[2026-07-02 23:19:33]   Iniciando push para o GitHub...
+[2026-07-02 23:19:33]   ⚠ Erro no push: No C:\Users\Jason\Desktop\PROJETOS\03 - DONE\price_monitoring\scripts\push_github.ps1:10 caractere:9
++     if ($env:$Name) { return $env:$Name }
++         ~~~~~
+Refer�ncia de vari�vel inv�lida. ':' n�
+[2026-07-02 23:22:28]   Iniciando push para o GitHub...
+[2026-07-02 23:22:28]   ⚠ Erro no push: No C:\Users\Jason\Desktop\PROJETOS\03 - DONE\price_monitoring\scripts\push_github.ps1:10 caractere:19
++     if ($null -ne $env:$Name) { return $env.$Name }
++                   ~~~~~
+Refer�ncia de vari
+[2026-07-02 23:24:17]   Iniciando push para o GitHub...
+[2026-07-02 23:24:17]   ⚠ Erro no push: No C:\Users\Jason\Desktop\PROJETOS\03 - DONE\price_monitoring\scripts\push_github.ps1:14 caractere:29
++     $envFile = $PSScriptRoot\.env
++                             ~~~~~
+Token '\.env' inesperado n
+[2026-07-02 23:25:23]   Iniciando push para o GitHub...
+[2026-07-02 23:25:23]   ⚠ Erro no push: C:\Users\Jason\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\python.exe: can't open file 'C:\\Users\\Jason\\Desktop\\PROJETOS\\03 - DONE\\price_monitoring\\scripts\\src\\dashboard.py': [E
+[2026-07-02 23:27:40]   Iniciando push para o GitHub...
+[2026-07-02 23:27:41]   ⚠ Erro no push: C:\Users\Jason\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\python.exe: can't open file 'C:\\Users\\Jason\\Desktop\\PROJETOS\\03 - DONE\\price_monitoring\\scripts\\src\\dashboard.py': [E
+[2026-07-02 23:28:40]   Iniciando push para o GitHub...
+[2026-07-02 23:28:40]   ⚠ Erro no push: C:\Users\Jason\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\python.exe: can't open file 'C:\\Users\\Jason\\Desktop\\PROJETOS\\03 - DONE\\price_monitoring\\scripts\\src\\dashboard.py': [E
+[2026-07-02 23:29:46]   Iniciando push para o GitHub...
