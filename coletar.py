@@ -39,7 +39,7 @@ URL_BASE = (
 # ─── Push GitHub ──────────────────────────────────────────────────
 def push_github():
     """Atualiza dashboard e faz push para o GitHub."""
-    script = Path(__file__).parent / "push_github.ps1"
+    script = Path(__file__).parent / "scripts" / "push_github.ps1"
     if not script.exists():
         log("  ⚠ push_github.ps1 não encontrado — pulando push")
         return

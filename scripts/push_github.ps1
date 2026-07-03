@@ -32,7 +32,7 @@ $data = Get-Date -Format "yyyy-MM-dd HH:mm"
 Write-Host "Enviando para o GitHub..." -ForegroundColor Cyan
 
 # Adiciona e commita os arquivos
-git add index.html dados/log.txt
+git add dashboard/index.html dados/log.txt
 git commit -m "coleta $data"
 
 # Push para o GitHub

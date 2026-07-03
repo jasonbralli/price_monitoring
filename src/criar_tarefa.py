@@ -12,11 +12,11 @@ from pathlib import Path
 # Prioridade: variável de ambiente > .env > valor padrão
 
 def get_env_var(name, default):
-    """Retorna variável de ambiente ou lê de .env, ou retorna default."""
+    """Retorna variável de ambiente ou lê de .env na raiz do projeto, ou retorna default."""
     val = os.environ.get(name)
     if val:
         return val
-    env_file = Path(__file__).parent / ".env"
+    env_file = Path(__file__).parent.parent / ".env"
     if env_file.exists():
         content = env_file.read_text(encoding="utf-8")
         for line in content.splitlines():
