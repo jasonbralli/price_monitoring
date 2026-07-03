@@ -4114,3 +4114,55 @@ Refer�ncia de vari�vel inv�lida. ':' n�o era se
 [2026-07-02 21:08:45] =======================================================
 [2026-07-02 21:08:46]   ✓ Dashboard atualizado
 [2026-07-02 21:08:46]   Iniciando push para o GitHub...
+[2026-07-02 22:05:02] =======================================================
+[2026-07-02 22:05:02] Iniciando coleta — Peruíbe SP v4.0
+[2026-07-02 22:05:02] =======================================================
+[2026-07-02 22:05:03]   Taxa USD/BRL: R$ 5.2217
+[2026-07-02 22:05:10]   → 2026-07-03
+[2026-07-02 22:05:28]   ✓ Filtros aplicados via clique
+[2026-07-02 22:05:33]     pág. 1: 18 cards → 18 novas
+[2026-07-02 22:05:41]     pág. 2: 18 cards → 18 novas
+[2026-07-02 22:05:47]     pág. 3: 18 cards → 18 novas
+[2026-07-02 22:05:47]     → Limite de 50 atingido, encerrando paginação
+[2026-07-02 22:05:47]   ✓ 50 pousadas | acumulado: 50
+[2026-07-02 22:05:52]   → 2026-07-04
+[2026-07-02 22:06:00]     pág. 1: 20 cards → 20 novas
+[2026-07-02 22:06:08]     pág. 2: 20 cards → 20 novas
+[2026-07-02 22:06:15]     pág. 3: 20 cards → 20 novas
+[2026-07-02 22:06:15]     → Limite de 50 atingido, encerrando paginação
+[2026-07-02 22:06:15]   ✓ 50 pousadas | acumulado: 100
+[2026-07-02 22:06:21]   → 2026-07-05
+[2026-07-02 22:06:29]     pág. 1: 20 cards → 20 novas
+[2026-07-02 22:06:37]     pág. 2: 20 cards → 20 novas
+[2026-07-02 22:06:45]     pág. 3: 20 cards → 20 novas
+[2026-07-02 22:06:45]     → Limite de 50 atingido, encerrando paginação
+[2026-07-02 22:06:45]   ✓ 50 pousadas | acumulado: 150
+[2026-07-02 22:06:52]   → 2026-07-06
+[2026-07-02 22:07:01]     pág. 1: 20 cards → 20 novas
+[2026-07-02 22:07:09]     pág. 2: 20 cards → 20 novas
+[2026-07-02 22:07:15]     pág. 3: 20 cards → 20 novas
+[2026-07-02 22:07:15]     → Limite de 50 atingido, encerrando paginação
+[2026-07-02 22:07:15]   ✓ 50 pousadas | acumulado: 200
+[2026-07-02 22:07:20]   → 2026-07-07
+[2026-07-02 22:07:27]     pág. 1: 20 cards → 20 novas
+[2026-07-02 22:07:34]     pág. 2: 20 cards → 20 novas
+[2026-07-02 22:07:41]     pág. 3: 20 cards → 20 novas
+[2026-07-02 22:07:41]     → Limite de 50 atingido, encerrando paginação
+[2026-07-02 22:07:41]   ✓ 50 pousadas | acumulado: 250
+[2026-07-02 22:07:47]   → 2026-07-08
+[2026-07-02 22:07:55]     pág. 1: 20 cards → 20 novas
+[2026-07-02 22:08:01]     pág. 2: 20 cards → 20 novas
+[2026-07-02 22:08:09]     pág. 3: 20 cards → 20 novas
+[2026-07-02 22:08:09]     → Limite de 50 atingido, encerrando paginação
+[2026-07-02 22:08:09]   ✓ 50 pousadas | acumulado: 300
+[2026-07-02 22:08:16]   → 2026-07-09
+[2026-07-02 22:08:23]     pág. 1: 20 cards → 20 novas
+[2026-07-02 22:08:29]     pág. 2: 20 cards → 20 novas
+[2026-07-02 22:08:37]     pág. 3: 20 cards → 20 novas
+[2026-07-02 22:08:37]     → Limite de 50 atingido, encerrando paginação
+[2026-07-02 22:08:37]   ✓ 50 pousadas | acumulado: 350
+[2026-07-02 22:08:44] 
+✓ Concluído — 350 registros salvos
+[2026-07-02 22:08:44] =======================================================
+[2026-07-02 22:08:44]   ⚠ Erro ao atualizar dashboard: [Errno 2] No such file or directory: 'C:\\Users\\Jason\\Desktop\\PROJETOS\\03 - DONE\\price_monitoring\\dashboard\\index.html'
+[2026-07-02 22:08:44]   ⚠ push_github.ps1 não encontrado — pulando push
