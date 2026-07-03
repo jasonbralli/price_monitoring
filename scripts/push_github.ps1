@@ -7,8 +7,11 @@
 
 function Get-EnvVar {
     param([string]$Name, [string]$Default)
-    if ($null -ne $env:$Name) { return $env.$Name }
-    $envFile = $PSScriptRoot\.env
+    try {
+        $val = Get-Item -ErrorAction SilentlyContinue "env:\$Name"
+        if ($null -ne $val) { return $val.Value }
+    } catch {}
+    $envFile = Join-Path $PSScriptRoot ".env"
     if (Test-Path $envFile) {
         $content = Get-Content $envFile -Raw
         if ($content -match "^$Name=(.+)") { return $Matches[1].Trim() }
