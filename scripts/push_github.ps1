@@ -7,7 +7,7 @@
 
 function Get-EnvVar {
     param([string]$Name, [string]$Default)
-    if ($env:$Name) { return $env:$Name }
+    if ($null -ne $env:$Name) { return $env.$Name }
     $envFile = $PSScriptRoot\.env
     if (Test-Path $envFile) {
         $content = Get-Content $envFile -Raw
