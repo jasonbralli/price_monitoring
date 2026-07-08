@@ -9,7 +9,7 @@ from pathlib import Path
 # Caminho relativo ao diretório do projeto (não ao módulo)
 PROJETO_DIR = Path(__file__).parent.parent
 DB_PATH = PROJETO_DIR / "dados" / "precos.db"
-HTML_PATH = PROJETO_DIR / "dashboard" / "index.html"
+HTML_PATH = PROJETO_DIR / "docs" / "index.html"
 
 
 def atualizar_dashboard():
