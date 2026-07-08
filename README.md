@@ -13,8 +13,6 @@ price_monitoring/
 ├── .env                       ← variáveis de ambiente (copie de .env.example)
 ├── .env.example               ← modelo de variáveis
 ├── .gitignore
-├── requirements.txt           ← dependências Python
-├── CHANGELOG.md               ← histórico de versões
 ├── coletar.py                 ← scraper principal (roda todo dia)
 ├── dados/
 │   ├── precos.db              ← banco SQLite (criado automaticamente)
@@ -24,10 +22,13 @@ price_monitoring/
 │   └── index.html             ← dashboard HTML (gerado automaticamente)
 ├── scripts/
 │   └── push_github.ps1        ← push para GitHub após coleta
-└── src/
-    ├── collector.py           ← scraper principal (roda todo dia)
-    ├── dashboard.py           ← atualização do dashboard HTML
-    └── tester.py              ← teste visual do scraper
+├── src/
+│   ├── collector.py           ← scraper principal (roda todo dia)
+│   ├── dashboard.py           ← atualização do dashboard HTML
+│   └── tester.py              ← teste visual do scraper
+├── requirements.txt           ← (obsoleto, consulte README.md)
+├── CHANGELOG.md               ← (obsoleto, consulte README.md)
+└── Troubleshooting.md         ← (obsoleto, consulte README.md)
 ```
 
 ---
