@@ -12,7 +12,7 @@ from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
 from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
-from bs4 import BeautifulSoup
+from src.parser import parsear_html
 
 # ─── Configurações ────────────────────────────────────────────────
 BASE_DIR    = Path(__file__).parent
@@ -57,14 +57,30 @@ def push_github():
 
 # ─── Cotação USD/BRL ──────────────────────────────────────────────
 def buscar_taxa_cambio() -> float:
-    try:
-        with urlopen("https://economia.awesomeapi.com.br/json/last/USD-BRL", timeout=8) as r:
-            taxa = float(json.loads(r.read())["USDBRL"]["bid"])
-        log(f"  Taxa USD/BRL: R$ {taxa:.4f}")
-        return taxa
-    except (URLError, KeyError, ValueError) as e:
-        log(f"  ⚠ Cotação indisponível ({e}). Usando R$ 5,00.")
-        return 5.00
+    """
+    Busca taxa USD→BRL em múltiplas fontes, com fallback em cadeia.
+    Ordem: awesomeapi → x-rates.com → fallback fixo 5.00
+    """
+    fontes = [
+        ("awesomeapi", "https://economia.awesomeapi.com.br/json/last/USD-BRL",
+         lambda d: float(d["USDBRL"]["bid"])),
+        ("x-rates.com", "https://api.x-rates.com/latest?base=USD&symbols=BRL",
+         lambda d: float(d["rates"]["BRL"])),
+    ]
+
+    for nome, url, extrator in fontes:
+        try:
+            with urlopen(url, timeout=5) as r:
+                data = json.loads(r.read())
+            taxa = extrator(data)
+            if taxa and taxa > 0:
+                log(f"  Taxa USD/BRL ({nome}): R$ {taxa:.4f}")
+                return taxa
+        except (URLError, KeyError, ValueError, json.JSONDecodeError) as e:
+            log(f"  ⚠ Fonte {nome} indisponível ({e})")
+
+    log("  ⚠ Todas as fontes falharam. Usando fallback R$ 5,00.")
+    return 5.00
 
 
 # ─── Banco de dados ───────────────────────────────────────────────
@@ -103,51 +119,7 @@ def marcar_executado():
 
 
 # ─── Parser ───────────────────────────────────────────────────────
-def parsear_html(html: str, checkin: str, checkout: str, url: str, taxa: float) -> list[dict]:
-    soup = BeautifulSoup(html, "html.parser")
-    cards = soup.find_all("div", class_=lambda c: c and "kCsInf" in c)
-    resultados = []
-    for card in cards:
-        try:
-            nome_el = card.find("h2", class_=lambda c: c and "BgYkof" in c)
-            if not nome_el:
-                continue
-            nome = nome_el.get_text(strip=True)
-
-            preco_usd, preco_brl = None, None
-            for txt in card.stripped_strings:
-                if "noite" in txt:
-                    numeros = txt.replace("\xa0","").replace(".","").replace(",",".")
-                    m = re.search(r"\d+(?:\.\d+)?", numeros)
-                    if m:
-                        valor = float(m.group())
-                        if "US$" in txt:
-                            preco_usd = valor
-                            preco_brl = round(valor * taxa, 2)
-                        elif "R$" in txt:
-                            preco_brl = valor
-                    break
-
-            avaliacao, reviews = None, None
-            textos = list(card.stripped_strings)
-            for j, txt in enumerate(textos):
-                if re.match(r"^[1-5][,\.]\\d$", txt.strip()):
-                    try: avaliacao = float(txt.strip().replace(",", "."))
-                    except: pass
-                    if j+1 < len(textos):
-                        prox = textos[j+1].strip()
-                        if prox.startswith("(") and prox.endswith(")"):
-                            reviews = prox[1:-1]
-                    break
-
-            resultados.append({
-                "nome": nome, "preco_usd": preco_usd, "preco_brl": preco_brl,
-                "taxa": taxa, "avaliacao": avaliacao, "reviews": reviews,
-                "checkin": checkin, "checkout": checkout, "url": url,
-            })
-        except Exception as e:
-            log(f"  ⚠ Erro card: {e}")
-    return resultados
+# Movido para src/parser.py — importado no topo do arquivo.
 
 
 # ─── Aplicar filtros via clique ───────────────────────────────────
@@ -228,7 +200,19 @@ def coletar_data(page, checkin: str, checkout: str, taxa: float,
             time.sleep(random.uniform(0.8, 1.2))
 
         # Extrai cards da página atual
-        pousadas = parsear_html(page.content(), checkin, checkout, page.url, taxa)
+        pousadas = parsear_html(page.content(), taxa=taxa)
+        for p in pousadas:
+            p["checkin"] = checkin
+            p["checkout"] = checkout
+            p["url"] = url
+            p["taxa"] = taxa
+
+        # Validação de sanidade: remove preços fora da faixa R$ 50–R$ 1.000
+        preco = p.get("preco_brl") or p.get("preco_usd")
+        if preco is not None and (preco < 50 or preco > 1000):
+            log(f"    ⚠ Preço suspeito descartado: {p['nome']} R$ {preco:.2f}")
+            continue
+
         novas = [p for p in pousadas if p["nome"] not in nomes_vistos]
         nomes_vistos.update(p["nome"] for p in novas)
         todos.extend(novas)
@@ -303,6 +287,13 @@ def main():
 
                 pousadas, filtros_aplicados = coletar_data(
                     page, ci, co, taxa, filtros_aplicados)
+
+                # Adiciona campos de data/url em cada pousada
+                for p in pousadas:
+                    p["checkin"] = ci
+                    p["checkout"] = co
+                    p["url"] = page.url
+                    p["taxa"] = taxa
 
                 agora = datetime.now().isoformat()
                 for p in pousadas:

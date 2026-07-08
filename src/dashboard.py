@@ -61,6 +61,10 @@ def atualizar_dashboard():
     # Le dashboard.html
     html = HTML_PATH.read_text(encoding="utf-8")
 
+    # Backup antes da escrita
+    backup_path = HTML_PATH.with_suffix(".html.bak")
+    backup_path.write_text(html, encoding="utf-8")
+
     # Header
     html = re.sub(
         r'<div class="header-meta">.*?</div>',
@@ -100,11 +104,6 @@ def atualizar_dashboard():
     html = re.sub(
         r'const POUSADAS = \[.*?\];',
         lambda _: f'const POUSADAS = {json.dumps(pousadas)};',
-        html
-    )
-    html = re.sub(
-        r'const SEM_PRECO = \[.*?\];',
-        lambda _: f'const SEM_PRECO = {json.dumps(sem_preco)};',
         html
     )
 

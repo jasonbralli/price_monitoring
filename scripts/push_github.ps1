@@ -19,7 +19,7 @@ function Get-EnvVar {
     return $Default
 }
 
-$GIT_REPO_PATH = Get-EnvVar "GIT_REPO_PATH" $PSScriptRoot
+$GIT_REPO_PATH = Get-EnvVar "GIT_REPO_PATH" (Split-Path $PSScriptRoot -Parent)
 $GITHUB_TOKEN  = Get-EnvVar "GITHUB_TOKEN" ""
 
 Set-Location $GIT_REPO_PATH
@@ -38,12 +38,43 @@ Write-Host "Enviando para o GitHub..." -ForegroundColor Cyan
 git add dashboard/index.html dados/log.txt
 git commit -m "coleta $data"
 
+# Sincroniza com o remoto antes do push (evita conflitos)
+git pull --rebase origin main
+if ($LASTEXITCODE -ne 0) {
+    # Tenta estagar mudanças não estagadas para continuar
+    git stash --include-untracked 2>$null
+    git pull --rebase origin main
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Erro no rebase - resolva conflitos manualmente." -ForegroundColor Red
+        exit 1
+    }
+    git stash pop
+}
+
 # Push para o GitHub
 if ($GITHUB_TOKEN) {
-    git push origin main --token $GITHUB_TOKEN
+    # Configura remote temporariamente com token para autenticação
+    $remoteUrl = git remote get-url origin
+    if ($remoteUrl -match '^https://') {
+        $secureUrl = $remoteUrl -replace 'https://', "https://${GITHUB_TOKEN}@"
+        git remote set-url origin $secureUrl
+        git push origin main
+        # Restaura remote sem token
+        git remote set-url origin $remoteUrl
+    } else {
+        git push origin main
+    }
 } else {
     git push origin main
 }
 
-Write-Host ""
-Write-Host "OK - GitHub Pages atualizado em $data" -ForegroundColor Green
+# Health check: verifica se o push foi aceito
+$lastCommit = git rev-parse HEAD
+$remoteCommit = git ls-remote origin main | ForEach-Object { ($_ -split '\t')[0] }
+if ($lastCommit -eq $remoteCommit) {
+    Write-Host ""
+    Write-Host "OK - GitHub Pages atualizado em $data" -ForegroundColor Green
+} else {
+    Write-Host ""
+    Write-Host "AVISO: push pode nao ter sido aplicado. Verifique o repositrio." -ForegroundColor Yellow
+}

@@ -11,7 +11,7 @@ NAO salva no banco.
 import time, random, re
 from datetime import datetime, timedelta
 from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
-from bs4 import BeautifulSoup
+from src.parser import parsear_html
 
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -73,21 +73,20 @@ def coletar_todas_paginas(page) -> list[dict]:
             print(f"  Pagina {pagina}: carregando...")
             _scroll_pagina(page)
 
-            resultados_pg = parsear_html(page.content())
-            
-            if not resultados_pg:
+            pousadas = parsear_html(page.content())
+            if not pousadas:
                 print(f"  Pagina {pagina}: sem resultados. Fim da paginacao.")
                 break
                 
             # Verifica se e pagina repetida (loop)
-            primeiro_nome = resultados_pg[0]["nome"]
+            primeiro_nome = pousadas[0]["nome"]
             if primeiro_nome in nomes_vistos:
                 print(f"  Pagina {pagina}: resultados repetidos. Fim real da paginacao.")
                 break
             nomes_vistos.add(primeiro_nome)
 
-            todos.extend(resultados_pg)
-            print(f"  Pagina {pagina}: {len(resultados_pg)} pousadas (total ate agora: {len(todos)})")
+            todos.extend(pousadas)
+            print(f"  Pagina {pagina}: {len(pousadas)} pousadas (total ate agora: {len(todos)})")
 
             # Seletor preciso: botao de paginacao (fora dos cards .kCsInf)
             btn_proximo = page.locator(
