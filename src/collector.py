@@ -326,7 +326,6 @@ def main():
         (hoje.strftime("%Y-%m-%d"),total,taxa,status,erro_msg or f"{total} registros"))
     con.commit()
     con.close()
-
     if status == "ok":
         marcar_executado()
 
