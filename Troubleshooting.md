@@ -21,7 +21,7 @@ python src/tester.py
 # 2. Verifique o log
 type dados\log.txt
 
-# 3. Se os seletores mudaram, edite parsear_html() em src/collector.py
+# 3. Se os seletores mudaram, edite parsear_html() em coletar.py
 ```
 
 ### "Timeout ao carregar página"
@@ -38,7 +38,7 @@ type dados\log.txt
 **Solução:**
 - O Google pode ter mudado a interface de filtros
 - Verifique `debug_pagina.html` gerado pelo tester
-- Atualize os seletores em `aplicar_filtros()` em `src/collector.py`
+- Atualize os seletores em `aplicar_filtros()` em `coletar.py`
 
 ---
 

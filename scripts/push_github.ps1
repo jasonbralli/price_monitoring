@@ -22,7 +22,7 @@ $GITHUB_TOKEN  = Get-EnvVar "GITHUB_TOKEN" ""
 Set-Location $GIT_REPO_PATH
 
 Write-Host "Atualizando dashboard..." -ForegroundColor Cyan
-python atualizar_dashboard.py
+python src/dashboard.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Erro ao atualizar dashboard." -ForegroundColor Red
     exit 1

@@ -20,16 +20,14 @@ price_monitoring/
 │   ├── precos.db              ← banco SQLite (criado automaticamente)
 │   ├── log.txt                ← histórico de execuções
 │   └── ultima_coleta.txt      ← controle: data da última coleta
-├── dashboard/
-│   └── index.html             ← template do dashboard HTML
+├── docs/
+│   └── index.html             ← dashboard HTML (gerado automaticamente)
 ├── scripts/
-│   ├── configurar_agendador.ps1
-│   └── push_github.ps1
+│   └── push_github.ps1        ← push para GitHub após coleta
 └── src/
-    ├── collector.py           ← scraper (cópia refatorada)
-    ├── dashboard.py           ← atualização do dashboard
-    ├── tester.py              ← teste visual
-    └── scheduler.py           ← criação de tarefa Windows
+    ├── collector.py           ← scraper principal (roda todo dia)
+    ├── dashboard.py           ← atualização do dashboard HTML
+    └── tester.py              ← teste visual do scraper
 ```
 
 ---
@@ -90,7 +88,7 @@ print(con.execute("SELECT count(*) FROM precos").fetchone())
 
 ### 6. Configurar o agendador automático
 
-Edite o arquivo `scripts/configurar_agendador.ps1` com seus caminhos (ou deixe usando `.env`):
+O agendamento é feito manualmente via Windows Task Scheduler (Logon + 08:00 AM).
 
 Depois abra o PowerShell como **Administrador** e execute:
 
@@ -164,7 +162,7 @@ O Google pode mudar o HTML dos cards sem aviso prévio.
 **Solução:**
 1. Rode `python src/tester.py` — ele salva o HTML em `debug_pagina.html`
 2. Abra esse arquivo no navegador e inspecione os elementos dos cards
-3. Atualize os seletores na função `parsear_html()` em `src/collector.py`
+3. Atualize os seletores na função `parsear_html()` em `coletar.py`
 
 ### Timeout ao carregar página
 
@@ -196,7 +194,7 @@ O Google pode mudar o HTML dos cards sem aviso prévio.
 
 1. Rode `python src/tester.py` — ele salva o HTML em `debug_pagina.html`
 2. Abra esse arquivo no navegador e inspecione os elementos dos cards
-3. Atualize os seletores na função `parsear_html()` em `src/collector.py`
+3. Atualize os seletores na função `parsear_html()` em `coletar.py`
 
 ---
 
