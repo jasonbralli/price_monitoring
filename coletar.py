@@ -6,7 +6,7 @@ coletar.py v4.0 — Monitor de preços Peruíbe via Google Hotels
 - Push automático para GitHub ao final
 """
 
-import sqlite3, random, re, time, json, subprocess
+import os, sqlite3, random, re, time, json, subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.request import urlopen
@@ -15,7 +15,11 @@ from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
 from bs4 import BeautifulSoup
 
 # ─── Configurações ────────────────────────────────────────────────
-BASE_DIR    = Path(__file__).parent
+PROJECT_ROOT = os.environ.get("PROJECT_ROOT")
+if PROJECT_ROOT:
+    BASE_DIR = Path(PROJECT_ROOT)
+else:
+    BASE_DIR = Path(__file__).parent.parent
 DB_PATH     = BASE_DIR / "dados" / "precos.db"
 LOG_PATH    = BASE_DIR / "dados" / "log.txt"
 CONTROLE    = BASE_DIR / "dados" / "ultima_coleta.txt"
@@ -280,6 +284,9 @@ def main():
     total, status, erro_msg = 0, "ok", ""
     filtros_aplicados = False
 
+    # Marca executado antes de qualquer operação para evitar múltiplas execuções
+    marcar_executado()
+
     try:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(
@@ -331,17 +338,19 @@ def main():
     con.close()
 
     if status == "ok":
-        marcar_executado()
+        log(f"\n✓ Concluído — {total} registros salvos")
+    else:
+        log(f"✗ Coleta falhou: {erro_msg}")
 
-    log(f"\n✓ Concluído — {total} registros salvos")
     log("=" * 55)
 
     if status == "ok":
-        # Atualiza o dashboard antes do push
+        # Atualiza o dashboard antes do push (caminho absoluto)
         try:
             import importlib.util
+            dashboard_path = Path(__file__).parent / "src" / "dashboard.py"
             spec = importlib.util.spec_from_file_location(
-                "dashboard", BASE_DIR / "src" / "dashboard.py")
+                "dashboard", str(dashboard_path))
             mod = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(mod)
             mod.atualizar_dashboard()

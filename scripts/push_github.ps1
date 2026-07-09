@@ -5,15 +5,14 @@
 # ─── Variáveis de ambiente ───────────────────────────────────────
 # Prioridade: variável de ambiente > .env > valor padrão
 
+$envVars = Get-ChildItem Env:
 function Get-EnvVar {
     param([string]$Name, [string]$Default)
-    if ($env:$Name) { return $env:$Name }
-    $envFile = $PSScriptRoot\.env
-    if (Test-Path $envFile) {
-        $content = Get-Content $envFile -Raw
-        if ($content -match "^$Name=(.+)") { return $Matches[1].Trim() }
+    $match = $null
+    foreach ($v in $envVars) {
+        if ($v.Name -eq $Name) { $match = $v.Value; break }
     }
-    return $Default
+    return if ($match) { $match } else { $Default }
 }
 
 $GIT_REPO_PATH = Get-EnvVar "GIT_REPO_PATH" $PSScriptRoot
