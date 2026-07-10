@@ -43,15 +43,15 @@ URL_BASE = (
 # ─── Push GitHub ──────────────────────────────────────────────────
 def push_github():
     """Atualiza dashboard e faz push para o GitHub."""
-    script = Path(__file__).parent / "scripts" / "push_github.ps1"
-    if not script.exists():
-        log("  ⚠ push_github.ps1 não encontrado — pulando push")
+    wrapper = Path(__file__).parent / "scripts" / "push_github.py"
+    if not wrapper.exists():
+        log("  ⚠ push_github.py não encontrado — pulando push")
         return
     
     log("  Iniciando push para o GitHub...")
     result = subprocess.run(
-        ["powershell", "-ExecutionPolicy", "Bypass", "-File", str(script)],
-        capture_output=True, text=True, encoding="utf-8", errors="replace"
+        ["python", str(wrapper)],
+        capture_output=True, text=True, errors="replace"
     )
     if result.returncode == 0:
         log("  ✓ GitHub atualizado com sucesso")
