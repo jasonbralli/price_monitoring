@@ -11,8 +11,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
-from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
-from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout  # type: ignore
+from bs4 import BeautifulSoup  # type: ignore
 
 # ─── Configurações ────────────────────────────────────────────────
 PROJECT_ROOT = os.environ.get("PROJECT_ROOT")
@@ -43,7 +43,7 @@ URL_BASE = (
 # ─── Push GitHub ──────────────────────────────────────────────────
 def push_github():
     """Atualiza dashboard e faz push para o GitHub."""
-    wrapper = Path(__file__).parent / "scripts" / "push_github.py"
+    wrapper = Path(__file__).parent / "push_github.py"
     if not wrapper.exists():
         log("  ⚠ push_github.py não encontrado — pulando push")
         return
@@ -75,11 +75,16 @@ def buscar_taxa_cambio() -> float:
 def iniciar_banco():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(DB_PATH)
-    con.execute("""CREATE TABLE IF NOT EXISTS precos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        coletado_em TEXT NOT NULL, checkin TEXT NOT NULL, checkout TEXT NOT NULL,
-        nome TEXT NOT NULL, preco_usd REAL, preco_brl REAL, taxa_cambio REAL,
-        avaliacao REAL, reviews TEXT, url TEXT)""")
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS precos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            coletado_em TEXT NOT NULL, checkin TEXT NOT NULL, checkout TEXT NOT NULL,
+            nome TEXT NOT NULL,
+            preco_usd REAL,
+            preco REAL,
+            preco_original REAL,
+            taxa_cambio REAL,
+            avaliacao REAL, reviews TEXT, url TEXT)""")
     con.execute("""CREATE TABLE IF NOT EXISTS coletas (
         id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT NOT NULL,
         registros INTEGER, taxa_cambio REAL, status TEXT, mensagem TEXT)""")
@@ -119,27 +124,30 @@ def parsear_html(html: str, checkin: str, checkout: str, url: str, taxa: float) 
             nome = nome_el.get_text(strip=True)
 
             preco_usd, preco_brl = None, None
-            for txt in card.stripped_strings:
-                if "noite" in txt:
-                    numeros = txt.replace("\xa0","").replace(".","").replace(",",".")
-                    m = re.search(r"\d+(?:\.\d+)?", numeros)
-                    if m:
-                        valor = float(m.group())
-                        if "US$" in txt:
-                            preco_usd = valor
-                            preco_brl = round(valor * taxa, 2)
-                        elif "R$" in txt:
-                            preco_brl = valor
-                    break
+            text = card.get_text(" ", strip=True)
+
+            # Busca preço sem depender da palavra "noite"
+            m_preco = re.search(r'R\$\s*([\d\.]+(?:,\d+)?)', text)
+            if not m_preco:
+                m_preco = re.search(r'US\$\s*([\d\.]+(?:,\d+)?)', text)
+            if m_preco:
+                valor = float(m_preco.group(1).replace(".", "").replace(",", "."))
+                if m_preco.group(0).startswith("R$"):
+                    preco_brl = valor
+                else:
+                    preco_usd = valor
+                    preco_brl = round(valor * taxa, 2)
 
             avaliacao, reviews = None, None
             textos = list(card.stripped_strings)
             for j, txt in enumerate(textos):
-                if re.match(r"^[1-5][,\.]\\d$", txt.strip()):
-                    try: avaliacao = float(txt.strip().replace(",", "."))
-                    except: pass
-                    if j+1 < len(textos):
-                        prox = textos[j+1].strip()
+                if re.match(r"^[1-5][,\.]\d$", txt.strip()):
+                    try:
+                        avaliacao = float(txt.strip().replace(",", "."))
+                    except Exception:
+                        pass
+                    if j + 1 < len(textos):
+                        prox = textos[j + 1].strip()
                         if prox.startswith("(") and prox.endswith(")"):
                             reviews = prox[1:-1]
                     break
@@ -345,19 +353,20 @@ def main():
     log("=" * 55)
 
     if status == "ok":
-        # Atualiza o dashboard antes do push (caminho absoluto)
+        # Atualiza o dashboard e, se der certo, envia para o GitHub
         try:
-            import importlib.util
-            dashboard_path = Path(__file__).parent / "src" / "dashboard.py"
-            spec = importlib.util.spec_from_file_location(
-                "dashboard", str(dashboard_path))
-            mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
-            mod.atualizar_dashboard()
-            log("  ✓ Dashboard atualizado")
+            dashboard_script = BASE_DIR / "src" / "dashboard.py"
+            result = subprocess.run(
+                ["python", str(dashboard_script)],
+                capture_output=True, text=True, errors="replace"
+            )
+            if result.returncode == 0:
+                log(f"  ✓ {result.stdout.strip()}")
+                push_github()
+            else:
+                log(f"  ⚠ Erro ao atualizar dashboard: {result.stderr.strip()[:200]}")
         except Exception as e:
             log(f"  ⚠ Erro ao atualizar dashboard: {e}")
-        push_github()
 
 
 if __name__ == "__main__":
