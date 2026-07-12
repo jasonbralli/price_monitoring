@@ -6,8 +6,8 @@ Usa caminho relativo ao diretório do projeto (não ao do módulo).
 import sqlite3, json, re
 from pathlib import Path
 
-# Caminho relativo ao diretório do projeto (não ao módulo)
-PROJETO_DIR = Path(__file__).parent.parent
+# Caminho relativo ao diretório do projeto (não ao do módulo)
+PROJETO_DIR = Path(__file__).resolve().parents[1]
 DB_PATH = PROJETO_DIR / "dados" / "precos.db"
 HTML_PATH = PROJETO_DIR / "docs" / "index.html"
 

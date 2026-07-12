@@ -16,8 +16,7 @@ price_monitoring/
 ├── scripts/
 │   ├── coletar.py             ← scraper principal (roda todo dia às 08:00)
 │   ├── push_github.py         ← wrapper para atualizar dashboard e push GitHub
-│   └── run_coleta.bat         ← wrapper chamado pelo Windows Task Scheduler
-├── src/
+│   ├── run_coleta.bat         ← wrapper chamado pelo Windows Task Scheduler
 │   └── dashboard.py           ← gera o HTML do dashboard a partir do banco
 ├── dados/
 │   ├── precos.db              ← banco SQLite (criado automaticamente)
@@ -25,8 +24,6 @@ price_monitoring/
 │   └── ultima_coleta.txt      ← controle: data da última coleta
 ├── docs/
 │   └── index.html             ← dashboard HTML (gerado automaticamente pelo dashboard.py)
-├── .python-version            ← versão do Python usada no venv
-├── requirements.txt           ← dependências do projeto
 └── uv.lock                    ← lock file do uv
 ```
 
@@ -98,7 +95,7 @@ O script verifica `dados/ultima_coleta.txt` antes de rodar. Se a data gravada fo
 
 ### Dashboard
 
-O `src/dashboard.py` lê o banco e injeta dados JSON diretamente no `docs/index.html`:
+O `scripts/dashboard.py` lê o banco e injeta dados JSON diretamente no `docs/index.html`:
 - KPIs: menor preço, maior preço, preço médio, concorrentes monitorados
 - Tabela com top 50 pousadas
 - Dados em tempo real via JavaScript (sem servidor)
@@ -106,7 +103,7 @@ O `src/dashboard.py` lê o banco e injeta dados JSON diretamente no `docs/index.
 ### Push para GitHub
 
 O `scripts/push_github.py` faz automaticamente:
-1. Chama `src/dashboard.py` para gerar o HTML atualizado
+1. Chama `scripts/dashboard.py` para gerar o HTML atualizado
 2. `git add docs/index.html dados/log.txt`
 3. `git commit -m "coleta YYYY-MM-DD HH:MM"`
 4. `git push origin main --token <GITHUB_TOKEN>`
@@ -216,3 +213,13 @@ for row in con.execute("""
 ## 📜 Licença
 
 MIT License — veja [LICENSE](LICENSE)
+
+---
+
+## 📦 Dependências
+
+```
+playwright>=1.40.0
+beautifulsoup4>=4.12.0
+urllib3>=2.0.0
+```

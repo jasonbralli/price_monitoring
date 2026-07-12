@@ -14,7 +14,7 @@ def main():
     
     # Atualiza o dashboard com Python
     result = subprocess.run(
-        ["python", "src/dashboard.py"],
+        ["python", "scripts/dashboard.py"],
         cwd=str(PROJETO_DIR),
         capture_output=True, text=True
     )

@@ -355,7 +355,7 @@ def main():
     if status == "ok":
         # Atualiza o dashboard e, se der certo, envia para o GitHub
         try:
-            dashboard_script = BASE_DIR / "src" / "dashboard.py"
+            dashboard_script = BASE_DIR / "scripts" / "dashboard.py"
             result = subprocess.run(
                 ["python", str(dashboard_script)],
                 capture_output=True, text=True, errors="replace"
