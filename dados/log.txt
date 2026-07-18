@@ -4647,3 +4647,75 @@ grafia do nome ou, se um caminho tiver sido inclu�do, veja se o caminho est�
 [2026-07-17 08:30:26] =======================================================
 [2026-07-17 08:30:26]   ✓ Nenhuma pousada com preco encontrada para hoje.
 [2026-07-17 08:30:26]   Iniciando push para o GitHub...
+[2026-07-17 08:30:30]   ✓ GitHub atualizado com sucesso
+[2026-07-18 08:00:03] =======================================================
+[2026-07-18 08:00:03] Iniciando coleta — Peruíbe SP v4.0
+[2026-07-18 08:00:03] =======================================================
+[2026-07-18 08:00:04]   ⚠ Cotação indisponível (HTTP Error 429: Too Many Requests). Usando R$ 5,00.
+[2026-07-18 08:00:12]   → 2026-07-19
+[2026-07-18 08:00:31]   ✓ Filtros aplicados via clique
+[2026-07-18 08:00:36]     pág. 1: 18 cards → 18 novas
+[2026-07-18 08:00:44]     pág. 2: 18 cards → 18 novas
+[2026-07-18 08:00:51]     pág. 3: 18 cards → 18 novas
+[2026-07-18 08:00:51]     → Limite de 50 atingido, encerrando paginação
+[2026-07-18 08:00:51]   ✓ 50 pousadas | acumulado: 50
+[2026-07-18 08:00:57]   → 2026-07-20
+[2026-07-18 08:01:04]     pág. 1: 20 cards → 20 novas
+[2026-07-18 08:01:11]     pág. 2: 20 cards → 0 novas
+[2026-07-18 08:01:12]     → Não foi possível clicar em Avançar: ElementHandle.scroll_into_view_if_needed: Element is not attached to the DOM
+Call log:
+  - attempting scroll into view action
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+    - waiting 20ms
+    2 × waiting for element to be stable
+      - element is not visible
+    - retrying scroll into view action
+      - waiting 100ms
+    - waiting for element to be stable
+    - element is not visible
+  - retrying scroll into view action
+    - waiting 500ms
+    - waiting for element to be stable
+
+[2026-07-18 08:01:12]   ✓ 20 pousadas | acumulado: 70
+[2026-07-18 08:01:18]   → 2026-07-21
+[2026-07-18 08:01:25]     pág. 1: 20 cards → 20 novas
+[2026-07-18 08:01:32]     pág. 2: 20 cards → 19 novas
+[2026-07-18 08:01:40]     pág. 3: 20 cards → 20 novas
+[2026-07-18 08:01:40]     → Limite de 50 atingido, encerrando paginação
+[2026-07-18 08:01:40]   ✓ 50 pousadas | acumulado: 120
+[2026-07-18 08:01:46]   → 2026-07-22
+[2026-07-18 08:01:55]     pág. 1: 20 cards → 20 novas
+[2026-07-18 08:02:04]     pág. 2: 20 cards → 19 novas
+[2026-07-18 08:02:11]     pág. 3: 20 cards → 20 novas
+[2026-07-18 08:02:11]     → Limite de 50 atingido, encerrando paginação
+[2026-07-18 08:02:11]   ✓ 50 pousadas | acumulado: 170
+[2026-07-18 08:02:16]   → 2026-07-23
+[2026-07-18 08:02:24]     pág. 1: 20 cards → 20 novas
+[2026-07-18 08:02:31]     pág. 2: 20 cards → 19 novas
+[2026-07-18 08:02:38]     pág. 3: 20 cards → 20 novas
+[2026-07-18 08:02:38]     → Limite de 50 atingido, encerrando paginação
+[2026-07-18 08:02:38]   ✓ 50 pousadas | acumulado: 220
+[2026-07-18 08:02:46]   → 2026-07-24
+[2026-07-18 08:02:59]     pág. 1: 20 cards → 20 novas
+[2026-07-18 08:03:06]     pág. 2: 20 cards → 19 novas
+[2026-07-18 08:03:13]     pág. 3: 20 cards → 20 novas
+[2026-07-18 08:03:13]     → Limite de 50 atingido, encerrando paginação
+[2026-07-18 08:03:13]   ✓ 50 pousadas | acumulado: 270
+[2026-07-18 08:03:20]   → 2026-07-25
+[2026-07-18 08:03:28]     pág. 1: 20 cards → 20 novas
+[2026-07-18 08:03:34]     pág. 2: 20 cards → 19 novas
+[2026-07-18 08:03:42]     pág. 3: 20 cards → 0 novas
+[2026-07-18 08:03:42]     → Não foi possível clicar em Avançar: ElementHandle.scroll_into_view_if_needed: Element is not attached to the DOM
+Call log:
+  - attempting scroll into view action
+    - waiting for element to be stable
+
+[2026-07-18 08:03:42]   ✓ 39 pousadas | acumulado: 309
+[2026-07-18 08:03:50] 
+✓ Concluído — 309 registros salvos
+[2026-07-18 08:03:50] =======================================================
+[2026-07-18 08:03:50]   ✓ Dashboard atualizado com 44 pousadas e 309 registros coletados em 2026-07-18.
+[2026-07-18 08:03:50]   Iniciando push para o GitHub...
