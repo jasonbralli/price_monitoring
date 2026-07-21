@@ -6,13 +6,13 @@ coletar.py v4.0 — Monitor de preços Peruíbe via Google Hotels
 - Push automático para GitHub ao final
 """
 
-import os, sqlite3, random, re, time, json, subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
 from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout  # type: ignore
 from bs4 import BeautifulSoup  # type: ignore
+import os, sqlite3, sys, random, re, time, json, subprocess
 
 # ─── Configurações ────────────────────────────────────────────────
 PROJECT_ROOT = os.environ.get("PROJECT_ROOT")

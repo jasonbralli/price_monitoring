@@ -1,14 +1,16 @@
 @echo off
 REM Wrapper para Windows Task Scheduler
-REM Usa a venv do projeto para garantir dependências corretas
+REM Usa Python global para evitar venv/ambiente contaminado
 pushd "%~dp0.."
-if not exist ".venv\Scripts\python.exe" (
-    echo [ERRO] .venv\Scripts\python.exe nao encontrado. Crie a venv primeiro.
+set "PYTHONPATH="
+set "PYTHONHOME="
+if not exist "C:\Users\Jason\AppData\Local\Programs\Python\Python313\python.exe" (
+    echo [ERRO] Python 3.13 nao encontrado. Ajuste o caminho no run_coleta.bat.
     popd
     pause
     exit /b 1
 )
-.venv\Scripts\python.exe scripts\coletar.py
+"C:\Users\Jason\AppData\Local\Programs\Python\Python313\python.exe" scripts/coletar.py
 set "RC=%ERRORLEVEL%"
 popd
 if %RC% neq 0 (
