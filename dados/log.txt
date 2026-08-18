@@ -6261,3 +6261,56 @@ Call log:
 [2026-08-17 08:35:07] =======================================================
 [2026-08-17 08:35:07]   ✓ Dashboard atualizado com 50 pousadas e 350 registros coletados em 2026-08-17.
 [2026-08-17 08:35:07]   Iniciando push para o GitHub...
+[2026-08-17 08:35:11]   ✓ GitHub atualizado com sucesso
+[2026-08-18 09:07:03] =======================================================
+[2026-08-18 09:07:04] Iniciando coleta — Peruíbe SP v4.0
+[2026-08-18 09:07:04] =======================================================
+[2026-08-18 09:07:05]   Taxa USD/BRL: R$ 5.2147
+[2026-08-18 09:07:11]   → 2026-08-19
+[2026-08-18 09:07:30]   ✓ Filtros aplicados via clique
+[2026-08-18 09:07:36]     pág. 1: 18 cards → 18 novas
+[2026-08-18 09:07:43]     pág. 2: 18 cards → 18 novas
+[2026-08-18 09:07:51]     pág. 3: 18 cards → 18 novas
+[2026-08-18 09:07:51]     → Limite de 50 atingido, encerrando paginação
+[2026-08-18 09:07:51]   ✓ 50 pousadas | acumulado: 50
+[2026-08-18 09:07:57]   → 2026-08-20
+[2026-08-18 09:08:05]     pág. 1: 18 cards → 18 novas
+[2026-08-18 09:08:11]     pág. 2: 20 cards → 19 novas
+[2026-08-18 09:08:18]     pág. 3: 20 cards → 20 novas
+[2026-08-18 09:08:18]     → Limite de 50 atingido, encerrando paginação
+[2026-08-18 09:08:18]   ✓ 50 pousadas | acumulado: 100
+[2026-08-18 09:08:23]   → 2026-08-21
+[2026-08-18 09:08:31]     pág. 1: 20 cards → 20 novas
+[2026-08-18 09:08:39]     pág. 2: 18 cards → 17 novas
+[2026-08-18 09:08:45]     pág. 3: 20 cards → 20 novas
+[2026-08-18 09:08:45]     → Limite de 50 atingido, encerrando paginação
+[2026-08-18 09:08:45]   ✓ 50 pousadas | acumulado: 150
+[2026-08-18 09:08:50]   → 2026-08-22
+[2026-08-18 09:09:00]     pág. 1: 20 cards → 20 novas
+[2026-08-18 09:09:07]     pág. 2: 20 cards → 19 novas
+[2026-08-18 09:09:14]     pág. 3: 20 cards → 20 novas
+[2026-08-18 09:09:14]     → Limite de 50 atingido, encerrando paginação
+[2026-08-18 09:09:14]   ✓ 50 pousadas | acumulado: 200
+[2026-08-18 09:09:19]   → 2026-08-23
+[2026-08-18 09:09:27]     pág. 1: 20 cards → 20 novas
+[2026-08-18 09:09:34]     pág. 2: 20 cards → 19 novas
+[2026-08-18 09:09:41]     pág. 3: 20 cards → 20 novas
+[2026-08-18 09:09:41]     → Limite de 50 atingido, encerrando paginação
+[2026-08-18 09:09:41]   ✓ 50 pousadas | acumulado: 250
+[2026-08-18 09:09:45]   → 2026-08-24
+[2026-08-18 09:09:54]     pág. 1: 20 cards → 20 novas
+[2026-08-18 09:10:00]     pág. 2: 20 cards → 19 novas
+[2026-08-18 09:10:07]     pág. 3: 20 cards → 20 novas
+[2026-08-18 09:10:07]     → Limite de 50 atingido, encerrando paginação
+[2026-08-18 09:10:07]   ✓ 50 pousadas | acumulado: 300
+[2026-08-18 09:10:12]   → 2026-08-25
+[2026-08-18 09:10:19]     pág. 1: 20 cards → 20 novas
+[2026-08-18 09:10:26]     pág. 2: 20 cards → 19 novas
+[2026-08-18 09:10:33]     pág. 3: 20 cards → 20 novas
+[2026-08-18 09:10:33]     → Limite de 50 atingido, encerrando paginação
+[2026-08-18 09:10:33]   ✓ 50 pousadas | acumulado: 350
+[2026-08-18 09:10:40] 
+✓ Concluído — 350 registros salvos
+[2026-08-18 09:10:40] =======================================================
+[2026-08-18 09:10:41]   ✓ Dashboard atualizado com 48 pousadas e 350 registros coletados em 2026-08-18.
+[2026-08-18 09:10:41]   Iniciando push para o GitHub...
