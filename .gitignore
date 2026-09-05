@@ -30,3 +30,6 @@ desktop.ini
 venv/
 env/
 .venv/
+
+# Log gerado pelo pipeline (contem caminhos locais da maquina)
+dados/log.txt
