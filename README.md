@@ -86,7 +86,7 @@ O script verifica `dados/ultima_coleta.txt` antes de rodar. Se a data gravada fo
 
 ### Fluxo da coleta
 
-1. **Busca taxa USD/BRL** via API (fallback R$ 5,00)
+1. **Busca taxa USD/BRL** em 3 tiers: API → última válida no banco → R$ 5,00 (fix 06/09/2026: antes caía direto no hardcoded)
 2. **Abre Google Hotels** com Playwright (headless, anti-detection)
 3. **Varre 7 dias à frente**, ordenando por menor preço
 4. **Aplica filtros** (Menor preço + acima de R$ 50) clicando na interface
@@ -155,6 +155,17 @@ for row in con.execute("""
 **Causa:** Token GitHub expirado ou repositório sem token.
 
 **Solução:** Verifique se `GITHUB_TOKEN` está definido em `.env`.
+
+### greenlet._greenlet quebrado no .venv
+
+**Sintomas:** `import playwright.sync_api` falha com `ModuleNotFoundError: No module named 'greenlet._greenlet'`.
+
+**Causa:** Instalação corrompida do `greenlet` (binário nativo ausente). O `.venv` não tem `pip` (`No module named pip`), então reinstale via `uv`:
+
+**Solução:**
+```bash
+uv pip install --force-reinstall --no-cache greenlet
+```
 
 ---
 

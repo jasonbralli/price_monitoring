@@ -59,16 +59,47 @@ def push_github():
         log(f"  ⚠ Erro no push: {result.stderr.strip()[:200]}")
 
 
-# ─── Cotação USD/BRL ──────────────────────────────────────────────
+# ─── Cotação USD/BRL (3 tiers: API → última válida → 5,00) ──────────
+def buscar_ultima_taxa() -> float | None:
+    """Tier 2: última taxa válida gravada em coletas (ignora hardcoded 5,00)."""
+    try:
+        if not DB_PATH.exists():
+            return None
+        con = sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True)
+        row = con.execute(
+            "SELECT taxa_cambio FROM coletas "
+            "WHERE taxa_cambio IS NOT NULL AND ABS(taxa_cambio - 5.0) > 0.0001 "
+            "ORDER BY id DESC LIMIT 1"
+        ).fetchone()
+        con.close()
+        if row and row[0]:
+            taxa = float(row[0])
+            if 3.0 < taxa < 8.0:
+                return taxa
+        return None
+    except Exception:
+        return None
+
+
 def buscar_taxa_cambio() -> float:
+    # Tier 1: API atualizada
     try:
         with urlopen("https://economia.awesomeapi.com.br/json/last/USD-BRL", timeout=8) as r:
             taxa = float(json.loads(r.read())["USDBRL"]["bid"])
+        if not 3.0 < taxa < 8.0:
+            raise ValueError(f"taxa implausivel: {taxa}")
         log(f"  Taxa USD/BRL: R$ {taxa:.4f}")
         return taxa
-    except (URLError, KeyError, ValueError) as e:
-        log(f"  ⚠ Cotação indisponível ({e}). Usando R$ 5,00.")
-        return 5.00
+    except Exception as e:
+        log(f"  ⚠ API falhou ({e}) — buscando última válida...")
+    # Tier 2: última cotação válida do banco
+    ultima = buscar_ultima_taxa()
+    if ultima is not None:
+        log(f"  Taxa reutilizada: R$ {ultima:.4f}")
+        return ultima
+    # Tier 3: hardcoded
+    log("  ⚠ Sem histórico. Usando R$ 5,00.")
+    return 5.00
 
 
 # ─── Banco de dados ───────────────────────────────────────────────
