@@ -282,6 +282,17 @@ def coletar_data(page, checkin: str, checkout: str, taxa: float,
             page.mouse.wheel(0, random.randint(500, 800))
             time.sleep(random.uniform(0.8, 1.2))
 
+        # Aguarda os preços renderizarem (carregam de forma assíncrona no
+        # Google; o snapshot inicial pode vir SEM preço → 0 registros com
+        # preço e o dashboard trava no dia anterior. v4.2)
+        for _ in range(12):  # até ~6s
+            try:
+                if re.search(r'R\$\s*\d', page.evaluate("() => document.body.innerText")):
+                    break
+            except Exception:
+                break
+            time.sleep(0.5)
+
         # Extrai cards da página atual
         html_atual = page.content()
         ultimo_html = html_atual

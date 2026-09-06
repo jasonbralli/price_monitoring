@@ -21,10 +21,14 @@ def atualizar_dashboard():
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
 
-    # Pega ultima data de coleta
-    row = cur.execute("SELECT MAX(date(coletado_em)) FROM precos").fetchone()
+    # Pega a ultima data de coleta que TENHA PRECO (v4.2: evita o dashboard
+    # "travar" no dia anterior quando uma coleta produz 0 precos — ex.: a
+    # pagina nao renderizou os precos no momento do snapshot do HTML).
+    row = cur.execute(
+        "SELECT MAX(date(coletado_em)) FROM precos WHERE preco_brl IS NOT NULL"
+    ).fetchone()
     if not row or not row[0]:
-        print("Sem dados no banco.")
+        print("Sem dados com preco no banco.")
         return
     ultima_data = row[0]
 
