@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 import sqlite3
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
@@ -82,10 +82,13 @@ def main() -> None:
     if controle.exists():
         ultima = controle.read_text(encoding='utf-8').strip()
         today = date.today().isoformat()
+        ontem = (date.today() - timedelta(days=1)).isoformat()
         if ultima == today:
             _ok(f'ultima_coleta.txt={ultima} (coleta de hoje ja marcada)')
+        elif ultima == ontem:
+            _ok(f'ultima_coleta.txt={ultima} (coleta de ontem — Scheduler 08:00 ainda nao rodou?)')
         else:
-            _fail(f'ultima_coleta.txt={ultima} (esperado {today})')
+            _fail(f'ultima_coleta.txt={ultima} (esperado {today} ou {ontem})')
     else:
         _fail('ultima_coleta.txt ausente')
 

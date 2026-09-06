@@ -1,5 +1,5 @@
 """
-coletar.py v4.0 — Monitor de preços Peruíbe via Google Hotels
+coletar.py v4.1 — Monitor de preços Peruíbe via Google Hotels
 - Paginação via clique no botão "Avançar" (jsname=OCpkoe)
 - Aplica filtros clicando na interface (não via URL)
 - Converte USD→BRL automaticamente via taxa do dia
@@ -23,6 +23,7 @@ else:
 DB_PATH     = BASE_DIR / "dados" / "precos.db"
 LOG_PATH    = BASE_DIR / "dados" / "log.txt"
 CONTROLE    = BASE_DIR / "dados" / "ultima_coleta.txt"
+LOCK_PATH   = BASE_DIR / "dados" / "coleta.lock"  # anti-concorrência (v4.1)
 JANELA_DIAS = 7   # janela de coleta em dias (7–10)
 MAX_PAGINAS = 3   # máx 3 páginas → ~60 cards, truncamos em 50
 
@@ -50,7 +51,7 @@ def push_github():
     
     log("  Iniciando push para o GitHub...")
     result = subprocess.run(
-        ["python", str(wrapper)],
+        [sys.executable, str(wrapper)],
         capture_output=True, text=True, errors="replace"
     )
     if result.returncode == 0:
@@ -119,6 +120,8 @@ def iniciar_banco():
     con.execute("""CREATE TABLE IF NOT EXISTS coletas (
         id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT NOT NULL,
         registros INTEGER, taxa_cambio REAL, status TEXT, mensagem TEXT)""")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_precos_coletado ON precos(coletado_em)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_coletas_data ON coletas(data)")
     con.commit()
     return con
 
@@ -129,6 +132,12 @@ def log(msg: str):
     linha = f"[{agora}] {msg}"
     print(linha)
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    try:  # rotação simples: cap 500 KB, mantém últimas 2000 linhas (v4.1)
+        if LOG_PATH.exists() and LOG_PATH.stat().st_size > 500 * 1024:
+            linhas = LOG_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
+            LOG_PATH.write_text("\n".join(linhas[-2000:]) + "\n", encoding="utf-8")
+    except Exception:
+        pass
     with open(LOG_PATH, "a", encoding="utf-8") as f:
         f.write(linha + "\n")
 
@@ -168,6 +177,8 @@ def parsear_html(html: str, checkin: str, checkout: str, url: str, taxa: float) 
                 else:
                     preco_usd = valor
                     preco_brl = round(valor * taxa, 2)
+                if preco_brl is not None and not 30.0 <= preco_brl <= 10000.0:
+                    preco_brl = None  # fora da faixa diária plausível (taxa/imposto?)
 
             avaliacao, reviews = None, None
             textos = list(card.stripped_strings)
@@ -263,6 +274,7 @@ def coletar_data(page, checkin: str, checkout: str, taxa: float,
     todos = []
     nomes_vistos = set()
     pagina = 1
+    ultimo_html = ""
 
     while pagina <= MAX_PAGINAS:
         # Scroll suave para carregar lazy content
@@ -271,7 +283,16 @@ def coletar_data(page, checkin: str, checkout: str, taxa: float,
             time.sleep(random.uniform(0.8, 1.2))
 
         # Extrai cards da página atual
-        pousadas = parsear_html(page.content(), checkin, checkout, page.url, taxa)
+        html_atual = page.content()
+        ultimo_html = html_atual
+        pousadas = parsear_html(html_atual, checkin, checkout, page.url, taxa)
+        if pagina == 1 and not pousadas:
+            try:
+                (BASE_DIR / "dados" / "debug_pagina.html").write_text(
+                    html_atual, encoding="utf-8", errors="replace")
+                log("    ⚠ 0 cards na pág.1 — HTML salvo em dados/debug_pagina.html (seletores?)")
+            except Exception:
+                pass
         novas = [p for p in pousadas if p["nome"] not in nomes_vistos]
         nomes_vistos.update(p["nome"] for p in novas)
         todos.extend(novas)
@@ -314,7 +335,7 @@ def main():
         return
 
     log("=" * 55)
-    log("Iniciando coleta — Peruíbe SP v4.0")
+    log("Iniciando coleta — Peruíbe SP v4.1")
     log("=" * 55)
 
     taxa = buscar_taxa_cambio()
@@ -323,8 +344,23 @@ def main():
     total, status, erro_msg = 0, "ok", ""
     filtros_aplicados = False
 
-    # Marca executado antes de qualquer operação para evitar múltiplas execuções
-    marcar_executado()
+    # Lock anti-concorrência (dia só é marcado após sucesso — ver final do main)
+    if LOCK_PATH.exists():
+        try:
+            idade = time.time() - LOCK_PATH.stat().st_mtime
+        except Exception:
+            idade = 0
+        if idade > 7200:
+            log("⚠ Lock obsoleto (>2h) — removendo e continuando")
+            try:
+                LOCK_PATH.unlink()
+            except Exception:
+                pass
+        else:
+            log("⚠ Outra coleta em andamento (coleta.lock) — encerrando")
+            con.close()
+            return
+    LOCK_PATH.write_text(datetime.now().isoformat())
 
     try:
         with sync_playwright() as pw:
@@ -371,15 +407,26 @@ def main():
         status, erro_msg = "erro", str(e)
         log(f"✗ Erro fatal: {e}")
 
+    if status == "ok" and total == 0:
+        status, erro_msg = "aviso", "0 cards em todas as datas — ver dados/debug_pagina.html"
+        log(f"⚠ {erro_msg}")
+
     con.execute("INSERT INTO coletas (data,registros,taxa_cambio,status,mensagem) VALUES(?,?,?,?,?)",
         (hoje.strftime("%Y-%m-%d"),total,taxa,status,erro_msg or f"{total} registros"))
     con.commit()
     con.close()
 
     if status == "ok":
+        marcar_executado()  # dia só é marcado após sucesso (v4.1)
         log(f"\n✓ Concluído — {total} registros salvos")
     else:
-        log(f"✗ Coleta falhou: {erro_msg}")
+        log(f"✗ Coleta falhou: {erro_msg} — dia NÃO marcado, retentativa liberada")
+
+    try:  # libera lock sempre
+        if LOCK_PATH.exists():
+            LOCK_PATH.unlink()
+    except Exception:
+        pass
 
     log("=" * 55)
 
@@ -388,7 +435,7 @@ def main():
         try:
             dashboard_script = BASE_DIR / "scripts" / "dashboard.py"
             result = subprocess.run(
-                ["python", str(dashboard_script)],
+                [sys.executable, str(dashboard_script)],
                 capture_output=True, text=True, errors="replace"
             )
             if result.returncode == 0:

@@ -24,7 +24,9 @@ price_monitoring/
 │   └── ultima_coleta.txt      ← controle: data da última coleta
 ├── docs/
 │   └── index.html             ← dashboard HTML (gerado automaticamente pelo dashboard.py)
-└── uv.lock                    ← lock file do uv
+├── tests/
+│   └── test_pipeline.py         ← suite pytest (parser, câmbio, pipeline)
+└── AUDITORIA.md                 ← auditoria 06/09/2026 + plano de melhorias
 ```
 
 ---
@@ -89,7 +91,7 @@ O script verifica `dados/ultima_coleta.txt` antes de rodar. Se a data gravada fo
 1. **Busca taxa USD/BRL** em 3 tiers: API → última válida no banco → R$ 5,00 (fix 06/09/2026: antes caía direto no hardcoded)
 2. **Abre Google Hotels** com Playwright (headless, anti-detection)
 3. **Varre 7 dias à frente**, ordenando por menor preço
-4. **Aplica filtros** (Menor preço + acima de R$ 50) clicando na interface
+4. **Aplica filtro** (Menor preço) clicando na interface
 5. **Paga até 50 concorrentes** via clique no botão "Avançar"
 6. **Salva no banco SQLite** + atualiza dashboard HTML + push para GitHub
 
@@ -104,9 +106,17 @@ O `scripts/dashboard.py` lê o banco e injeta dados JSON diretamente no `docs/in
 
 O `scripts/push_github.py` faz automaticamente:
 1. Chama `scripts/dashboard.py` para gerar o HTML atualizado
-2. `git add docs/index.html dados/log.txt`
+2. `git add docs/index.html` (só o dashboard é versionado)
 3. `git commit -m "coleta YYYY-MM-DD HH:MM"`
-4. `git push origin main --token <GITHUB_TOKEN>`
+4. `git push origin main` (com `GITHUB_TOKEN` via header HTTP, sem expor o token)
+
+---
+
+## 🗓️ Agendador (Task Scheduler)
+
+A tarefa `Monitor Precos Peruibe - Diario` roda `scripts/run_coleta.bat` todo dia às 08:00
+(prefere `.venv\Scripts\python.exe`, cai para o Python 3.13 global).
+Scripts auxiliares de diagnóstico em `scripts/scheduler/`; o canônico de (re)criação é `fix_scheduler.ps1` na raiz.
 
 ---
 
@@ -191,6 +201,7 @@ uv pip install --force-reinstall --no-cache greenlet
 | Variável | Padrão | Descrição |
 |----------|--------|-----------|
 | `GITHUB_TOKEN` | — | Token GitHub para push em repos privados |
+| `PROJECT_ROOT` | parent de `scripts/` | Raiz do projeto (lock, banco, log) |
 
 ---
 
@@ -232,5 +243,6 @@ MIT License — veja [LICENSE](LICENSE)
 ```
 playwright>=1.40.0
 beautifulsoup4>=4.12.0
-urllib3>=2.0.0
+greenlet>=2.0   # dep nativa do playwright (reinstalar via uv se quebrar)
+pytest>=8.0     # suite de testes (tests/)
 ```

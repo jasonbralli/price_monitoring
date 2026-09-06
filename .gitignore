@@ -33,3 +33,7 @@ env/
 
 # Log gerado pelo pipeline (contem caminhos locais da maquina)
 dados/log.txt
+
+# Gerados pela coleta (lock anti-concorrencia + debug de seletores)
+dados/coleta.lock
+dados/debug_pagina.html
