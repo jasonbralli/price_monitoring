@@ -72,30 +72,32 @@ def atualizar_dashboard():
         html, flags=re.DOTALL
     )
 
-    # KPI Menor Preco
+    # KPI Menor Preco (v4.2: pattern cobre o bloco completo até o </div>
+    # externo — o pattern antigo parava no </div> do kpi-body e deixava um
+    # </div> pendurado que se acumulava a cada execução)
     html = re.sub(
-        r'<div class="kpi green">.*?</div>\s*</div>',
+        r'<div class="kpi green">.*?</div>\s*</div>\s*</div>',
         f'<div class="kpi green">\n      <div class="kpi-body">\n        <div class="kpi-label">Menor preco</div>\n        <div class="kpi-value accent">R$ {menor_preco["preco"]}</div>\n        <div class="kpi-sub">{menor_preco["nome"][:20]}...</div>\n      </div>\n    </div>',
         html, flags=re.DOTALL
     )
 
     # KPI Medio
     html = re.sub(
-        r'<div class="kpi blue">.*?</div>\s*</div>',
+        r'<div class="kpi blue">.*?</div>\s*</div>\s*</div>',
         f'<div class="kpi blue">\n      <div class="kpi-body">\n        <div class="kpi-label">Preco medio mercado</div>\n        <div class="kpi-value blue">R$ {preco_medio}</div>\n        <div class="kpi-sub">{len(pousadas)} pousadas com preco</div>\n      </div>\n    </div>',
         html, flags=re.DOTALL
     )
 
     # KPI Maior
     html = re.sub(
-        r'<div class="kpi orange">.*?</div>\s*</div>',
+        r'<div class="kpi orange">.*?</div>\s*</div>\s*</div>',
         f'<div class="kpi orange">\n      <div class="kpi-body">\n        <div class="kpi-label">Maior preco</div>\n        <div class="kpi-value orange">R$ {maior_preco["preco"]}</div>\n        <div class="kpi-sub">{maior_preco["nome"][:20]}...</div>\n      </div>\n    </div>',
         html, flags=re.DOTALL
     )
 
     # KPI Concorrentes
     html = re.sub(
-        r'<div class="kpi gray">.*?</div>\s*</div>',
+        r'<div class="kpi gray">.*?</div>\s*</div>\s*</div>',
         f'<div class="kpi gray">\n      <div class="kpi-body">\n        <div class="kpi-label">Concorrentes monitorados</div>\n        <div class="kpi-value" style="color:var(--text)">{concorrentes}</div>\n        <div class="kpi-sub">Top 50 · 7 dias a frente</div>\n      </div>\n    </div>',
         html, flags=re.DOTALL
     )
