@@ -103,6 +103,62 @@ def buscar_taxa_cambio() -> float:
     return 5.00
 
 
+# ─── Conversão de moedas (v4.4) ──────────────────────────────────
+# O Google detecta a moeda pelo IP da VPN e ignora curr=BRL da URL
+# (ex.: nó no Canadá → preços em CA$). Detectamos a moeda no card e
+# convertemos para BRL via AwesomeAPI.
+_cache_taxas: dict = {}
+
+# Símbolo no card (2 letras) → código ISO 3 letras (para a API AwesomeAPI)
+ISO_MAP = {
+    "US": "USD", "CA": "CAD", "EU": "EUR", "GB": "GBP", "MX": "MXN",
+    "AR": "ARS", "CL": "CLP", "CO": "COP", "PE": "PEN", "CH": "CHF",
+    "JP": "JPY", "CN": "CNY", "IN": "INR", "AU": "AUD", "NZ": "NZD",
+}
+
+def taxa_para_brl(cod: str, taxa_usd: float) -> float | None:
+    """Taxa de conversão moeda→BRL. BRL=1, USD usa a taxa já obtida,
+    demais: AwesomeAPI {COD}-BRL; fallback {COD}-USD * taxa_usd."""
+    cod = cod.upper()
+    if cod == "BRL":
+        return 1.0
+    if cod == "USD":
+        return taxa_usd
+    if cod not in _cache_taxas:
+        t = None
+        try:
+            with urlopen(f"https://economia.awesomeapi.com.br/json/last/{cod}-BRL", timeout=8) as r:
+                j = json.loads(r.read())
+                v = float(j[f"{cod}BRL"]["bid"])
+                if 0.1 < v < 50:
+                    t = v
+        except Exception:
+            pass
+        if t is None:
+            # Fallback: AwesomeAPI em 429 (cota estourada no IP da VPN) →
+            # open.er-api.com (gratuito, sem cota agressiva).
+            try:
+                with urlopen(f"https://open.er-api.com/v6/latest/{cod}", timeout=8) as r:
+                    j = json.loads(r.read())
+                    v = float(j["rates"]["BRL"])
+                    if 0.1 < v < 50:
+                        t = v
+            except Exception:
+                t = None
+        if t is None:
+            # Último recurso: {COD}-USD * taxa_usd (só se AwesomeAPI responder)
+            try:
+                with urlopen(f"https://economia.awesomeapi.com.br/json/last/{cod}-USD", timeout=8) as r:
+                    j = json.loads(r.read())
+                    t = float(j[f"{cod}USD"]["bid"]) * taxa_usd
+            except Exception:
+                t = None
+        if t:
+            log(f"  Moeda {cod} detectada — taxa {t:.4f} BRL")
+        _cache_taxas[cod] = t
+    return _cache_taxas[cod]
+
+
 # ─── Banco de dados ───────────────────────────────────────────────
 def iniciar_banco():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -166,19 +222,25 @@ def parsear_html(html: str, checkin: str, checkout: str, url: str, taxa: float) 
             preco_usd, preco_brl = None, None
             text = card.get_text(" ", strip=True)
 
-            # Busca preço sem depender da palavra "noite"
-            m_preco = re.search(r'R\$\s*([\d\.]+(?:,\d+)?)', text)
+            # v4.4: preço em qualquer moeda (o Google detecta a moeda pelo
+            # IP da VPN — pode vir R$, US$, CA$ etc., mesmo com curr=BRL).
+            # Prefere o valor "por noite"; senão, o primeiro preço do card.
+            m_preco = re.search(
+                r'([A-Z]{2,3}\$|R\$)\s*([\d.]+(?:,\d+)?)\s*por noite', text)
             if not m_preco:
-                m_preco = re.search(r'US\$\s*([\d\.]+(?:,\d+)?)', text)
+                m_preco = re.search(r'([A-Z]{2,3}\$|R\$)\s*([\d.]+(?:,\d+)?)', text)
             if m_preco:
-                valor = float(m_preco.group(1).replace(".", "").replace(",", "."))
-                if m_preco.group(0).startswith("R$"):
-                    preco_brl = valor
-                else:
-                    preco_usd = valor
-                    preco_brl = round(valor * taxa, 2)
-                if preco_brl is not None and not 30.0 <= preco_brl <= 10000.0:
-                    preco_brl = None  # fora da faixa diária plausível (taxa/imposto?)
+                moeda = m_preco.group(1)
+                cod = "BRL" if moeda.startswith("R") else moeda.rstrip("$")
+                cod = ISO_MAP.get(cod, cod)
+                valor = float(m_preco.group(2).replace(".", "").replace(",", "."))
+                t_conv = taxa_para_brl(cod, taxa)
+                if t_conv:
+                    preco_brl = round(valor * t_conv, 2)
+                    if cod == "USD":
+                        preco_usd = valor
+                    if not 30.0 <= preco_brl <= 10000.0:
+                        preco_brl = None  # fora da faixa diária plausível (taxa/imposto?)
 
             avaliacao, reviews = None, None
             textos = list(card.stripped_strings)
@@ -285,9 +347,11 @@ def coletar_data(page, checkin: str, checkout: str, taxa: float,
         # Aguarda os preços renderizarem (carregam de forma assíncrona no
         # Google; o snapshot inicial pode vir SEM preço → 0 registros com
         # preço e o dashboard trava no dia anterior. v4.2)
+        # v4.4: aceita qualquer símbolo de moeda (o IP da VPN pode mudar a
+        # moeda exibida — CA$, US$ etc.)
         for _ in range(12):  # até ~6s
             try:
-                if re.search(r'R\$\s*\d', page.evaluate("() => document.body.innerText")):
+                if re.search(r'(R\$|[A-Z]{2,3}\$)\s*\d', page.evaluate("() => document.body.innerText")):
                     break
             except Exception:
                 break
@@ -396,6 +460,18 @@ def main():
 
                 pousadas, filtros_aplicados = coletar_data(
                     page, ci, co, taxa, filtros_aplicados)
+
+                # v4.3: se nenhum preço veio, tenta recarregar 1x com wait extra
+                sem_preco = [p for p in pousadas if p["preco_brl"] is None]
+                if sem_preco:
+                    log(f"    ⚠ {len(sem_preco)} cards sem preco — tentando reload...")
+                    try:
+                        page.reload()
+                        time.sleep(3)
+                        pousadas, filtros_aplicados = coletar_data(
+                            page, ci, co, taxa, filtros_aplicados)
+                    except Exception as e:
+                        log(f"    ⚠ Erro no retry: {e}")
 
                 agora = datetime.now().isoformat()
                 for p in pousadas:
